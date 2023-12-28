@@ -1,4 +1,4 @@
-import UserInputComponent from "../../components/userInputComponent";
+import UtilityAnalysisInteraction from "../../components/UtilityAnalysisInteraction";
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 
@@ -16,14 +16,8 @@ const UtilityAnalysis = async () => {
           <h2 className="text-2xl font-semibold leading-tight mb-2">
             Nutzwertanalyse
           </h2>
-          <p>
-            Bitte wählen Sie Kriterien, die für die Nutzwertanalyse verwendet
-            werden sollen aus. <br />
-            Die Kriterien müssen einzeln Gewichtet werden. Dabei ist zu
-            beachtenm, dass die Summe am Ende 100% ergeben muss
-          </p>
         </div>
-        <UserInputComponent crowdfundingProviderData={crowdfundingProvider} />
+        <UtilityAnalysisInteraction crowdfundingProviderData={crowdfundingProvider} />
       </div>
     </div>
   );
