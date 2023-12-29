@@ -221,7 +221,7 @@ const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfunding
             <div
               className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
             >
-              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              <div className="relative w-auto my-6 mx-auto max-w-5xl">
                 {/*content*/}
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                   {/*header*/}
@@ -251,7 +251,7 @@ const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfunding
                         <span className="absolute top-0 left-0 inline-flex mt-3 ml-3 px-3 py-2 rounded-lg z-10 bg-red-500 text-sm font-medium text-white select-none">
                         <p className="flex items-start font-medium text-white">
                           <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" ><path d="M12 .587l3.668 7.431 8.332 1.21-6.001 5.848 1.416 8.265L12 18.896l-7.415 4.445 1.416-8.265-6.001-5.848 8.332-1.21z" stroke-width="2.2" fill="none" stroke="white"/></svg>
-                          3 + 1
+                            {selectedProvider && selectedProvider.score}
                           </p>
                         </span>
                       </div>
