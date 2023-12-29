@@ -19,32 +19,12 @@ const Logo = () => {
   }, []);
 
   // change between the logo and the button when the user scrolls
-  const [showButton, setShowButton] = useState(false);
-
-  const changeNavButton = () => {
-    if (window.scrollY >= 400 && window.innerWidth < 768) {
-      setShowButton(true);
-    } else {
-      setShowButton(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", changeNavButton);
-  }, []);
 
   return (
     <>
-      <Link href="/" style={{ display: showButton ? "none" : "block" }}>
+      <Link href="/">
         <p className="text-2xl text-cr-darkgrey">Crowdfunding-Comparison</p>
       </Link>
-      <div
-        style={{
-          display: showButton ? "block" : "none",
-        }}
-      >
-        <Button />
-      </div>
     </>
   );
 };
