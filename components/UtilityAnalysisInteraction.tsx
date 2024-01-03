@@ -70,8 +70,14 @@ const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfunding
 
   return (
     <div>
+      
       {ratedCrowdFundingProvider.length === 0 ? (
         <div>
+          <div className="mb-5">
+            <h2 className="text-2xl font-semibold leading-tight mb-2">
+              Nutzwertanalyse
+            </h2>
+          </div>
           <p>
             Bitte wählen Sie Kriterien, die für die Nutzwertanalyse verwendet
             werden sollen aus. <br />

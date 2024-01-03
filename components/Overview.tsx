@@ -13,12 +13,15 @@ const  Overview = ({ crowdfundingProvider }: { crowdfundingProvider: any}) => {
     }
 }
 
-
   return (
       <div>
           {/*---------------------------------------- AFTER CALCULATION ---------------------------------------- */}
           <div className="flex min-h-screen flex-col items-start">
-              <h1 className="text-3xl flex" >All Crowdfunding Provider</h1>
+            {crowdfundingProvider && crowdfundingProvider[0].score >= 0 ? (
+                <h1 className="text-3xl flex mt-7">All Crowdfunding Provider with Score</h1>
+            ) : (
+                <h1 className="text-3xl flex mt-7">All Crowdfunding Provider</h1>
+            )}
               <div className="container my-12 mx-auto ">
                   <div className="flex flex-wrap -mx-1 lg:-mx-4">
                       {crowdfundingProvider && crowdfundingProvider.map((provider: any, index: number) => (
@@ -42,16 +45,17 @@ const  Overview = ({ crowdfundingProvider }: { crowdfundingProvider: any}) => {
                                   </header>
 
                                   <footer className="flex items-center justify-between leading-none p-2 md:p-4">
-                                      <a className="flex items-center no-underline hover:underline text-black">
+                                      <a className="flex items-center text-black">
                                           <button
-                                              className="bg-gray-700 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow "
+                                              className="bg-gray-700 text-white font-bold uppercase text-xs px-4 py-2 rounded shadow "
                                               type="button"
                                               onClick={() => toggleModal(index)}
                                           >
-                                              More Information
+                                              Mehr Informationen
                                           </button>
-                                          <p className="ml-2 text-sm">
-                                              more info tbd
+                                          <p className="ml-2 ">
+                                            <i className="fi fi-rr-marker mr-2 mb-0"></i>
+                                              {provider.location && provider.location}
                                           </p>
                                       </a>
                                   </footer>
@@ -71,10 +75,10 @@ const  Overview = ({ crowdfundingProvider }: { crowdfundingProvider: any}) => {
                                                               Provider
                                                           </h3>
                                                           <button
-                                                              className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                                                              className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                                                               onClick={() => setShowModal(false)}
                                                           >
-                                                              <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                                              <span className="bg-transparent text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
                                                                   ×
                                                               </span>
                                                           </button>
@@ -84,7 +88,7 @@ const  Overview = ({ crowdfundingProvider }: { crowdfundingProvider: any}) => {
                                                           <div className="shadow p-4 rounded-lg bg-white">
                                                               <div className="flex justify-center relative rounded-lg overflow-hidden h-52">
                                                                   <div className="transition-transform duration-500 transform ease-in-out hover:scale-110 w-full">
-                                                                      <div className="absolute inset-0 bg-black ">
+                                                                      <div className="absolute inset-0">
                                                                           <img className="block h-full w-full " src={`${selectedProvider && selectedProvider.logo}`} />
                                                                       </div>
                                                                   </div>
@@ -99,7 +103,7 @@ const  Overview = ({ crowdfundingProvider }: { crowdfundingProvider: any}) => {
                                                               </div>
 
                                                               <div className="mt-4 ml-2">
-                                                                  <h2 className="font-medium text-base md:text-lg text-gray-800 line-clamp-1" title="New York">
+                                                                  <h2 className="font-medium text-base md:text-lg text-gray-800 line-clamp-1">
                                                                       {selectedProvider && selectedProvider.name}
                                                                   </h2>
                                                                   <p className="mt-2 text-sm text-gray-800" title="New York, NY 10004, United States">
@@ -111,25 +115,40 @@ const  Overview = ({ crowdfundingProvider }: { crowdfundingProvider: any}) => {
                                                                   <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
                                                                       <i className="fi fi-sr-signal-stream mr-2 mb-0 flex"></i>
                                                                       <span className="mt-2 xl:mt-0">
-                                                                          Reach: {selectedProvider && selectedProvider.reach}
+                                                                          Reichweite: {selectedProvider && selectedProvider.reach}
                                                                       </span>
                                                                   </p>
                                                                   <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                                                                      <svg className="inline-block w-5 h-5 xl:w-4 xl:h-4 mr-3 fill-current text-gray-800" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill='none' stroke="black" strokeWidth="2.2"></path>
-                                                                      </svg>
+                                                                  <i className="fi fi-bs-heart mr-2 mb-0 flex"></i>
                                                                       <span className="mt-2 xl:mt-0">
-                                                                          Trustworthiness: {selectedProvider && selectedProvider.trustworthiness}
+                                                                           Erfahrungen: {selectedProvider && selectedProvider.trustworthiness}
                                                                       </span>
                                                                   </p>
                                                                   <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
                                                                       <i className="fi fi-rr-coins mr-2 mb-0 flex"></i>
                                                                       <span className="mt-2 xl:mt-0">
-                                                                          Cost: {selectedProvider && selectedProvider.cost}
+                                                                          Kosten: {selectedProvider && selectedProvider.cost}
                                                                       </span>
                                                                   </p>
-                                                              </div>
-
+                                                                  <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
+                                                                    <i className="fi fi-rr-marker mr-2 mb-0"></i>
+                                                                      <span className="mt-2 xl:mt-0">
+                                                                          Sitz: {selectedProvider && selectedProvider.location}
+                                                                      </span>
+                                                                  </p>
+                                                                  <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
+                                                                    <i className="fi fi-rr-book-section mr-2 mb-0 flex"></i>
+                                                                      <span className="mt-2 xl:mt-0">
+                                                                          Sektor: {selectedProvider && selectedProvider.sector}
+                                                                      </span>
+                                                                  </p>
+                                                                  <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
+                                                                    <i className="fi fi-rr-document-signed mr-2 mb-0 flex"></i>
+                                                                      <span className="mt-2 xl:mt-0">
+                                                                          Art: {selectedProvider && selectedProvider.crowdfundingType}
+                                                                      </span>
+                                                                  </p>
+                                                                </div>
                                                               <div className="grid grid-cols-2 mt-8">
                                                                   <div className="flex items-center">
                                                                       <Link href={selectedProvider && selectedProvider.url} target='_blank'>
@@ -155,7 +174,7 @@ const  Overview = ({ crowdfundingProvider }: { crowdfundingProvider: any}) => {
                                                   </div>
                                               </div>
                                           </div>
-                                          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                                          <div className="opacity-5 fixed inset-0 z-40 bg-black"></div>
                                       </>
                                   ) : null}
                               </>
