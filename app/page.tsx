@@ -1,4 +1,4 @@
-import Overview from '@/components/Overview';
+import CrowdfuningProviderOverview from '@/components/CrowdfuningProviderOverview';
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import { useState } from 'react'
@@ -22,7 +22,7 @@ export default async function Index() {
 
   return (
     <>
-        <Overview crowdfundingProvider={crowdfundingProvider} ></Overview>
+        <CrowdfuningProviderOverview crowdfundingProvider={crowdfundingProvider} ></CrowdfuningProviderOverview>
     </>
   )
 }

@@ -1,8 +1,8 @@
 'use client';
 import { useState, useEffect, Dispatch, SetStateAction, JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactFragment, ReactPortal } from 'react';
-import { checkForm, calculateUtilityAnalysis } from '../app/utility-analysis/calculation';
-import Link from 'next/link'
-import Overview from './Overview';
+import { calculateUtilityAnalysis } from '../utils/utilityAnalysis/calculation';
+import { checkForm } from '../utils/utilityAnalysis/checkForm';
+import CrowdfuningProviderOverview from './CrowdfuningProviderOverview';
 
 interface Props {
     value: string
@@ -174,7 +174,7 @@ const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfunding
               onClick={deleteList}
               className="bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4"
             >Neu ausrechnen</button>
-            <Overview crowdfundingProvider={ratedCrowdFundingProvider} ></Overview>
+            <CrowdfuningProviderOverview crowdfundingProvider={ratedCrowdFundingProvider} ></CrowdfuningProviderOverview>
           </>
       )}
     </div>

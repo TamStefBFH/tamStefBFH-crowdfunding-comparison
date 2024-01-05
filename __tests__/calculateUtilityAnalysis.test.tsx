@@ -1,4 +1,4 @@
-import { calculateUtilityAnalysis } from '../app/utility-analysis/calculation';
+import { calculateUtilityAnalysis } from '../utils/utilityAnalysis/calculation';
 
 describe('calculateUtilityAnalysis', () => {
     test('should correctly calculate the score for each provider', () => {

@@ -1,4 +1,4 @@
-import { checkForm } from '../app/utility-analysis/calculation';
+import { checkForm } from '../utils/utilityAnalysis/checkForm';
 
 describe('checkForm', () => {
   test('should return true when all attributes are set, weights are numbers, sum of weights is 100, and no duplicate criteria', () => {
