@@ -87,7 +87,7 @@ const  Overview = ({ crowdfundingProvider }: { crowdfundingProvider: any}) => {
                                                       <div className="relative mx-auto w-full">
                                                           <div className="shadow p-4 rounded-lg bg-white">
                                                               <div className="flex justify-center relative rounded-lg overflow-hidden h-52">
-                                                                  <div className="transition-transform duration-500 transform ease-in-out hover:scale-110 w-full">
+                                                                  <div className="w-full">
                                                                       <div className="absolute inset-0">
                                                                           <img className="block h-full w-full " src={`${selectedProvider && selectedProvider.logo}`} />
                                                                       </div>
@@ -168,7 +168,7 @@ const  Overview = ({ crowdfundingProvider }: { crowdfundingProvider: any}) => {
                                                               type="button"
                                                               onClick={() => setShowModal(false)}
                                                           >
-                                                              Close
+                                                              Schliessen
                                                           </button>
                                                       </div>
                                                   </div>
