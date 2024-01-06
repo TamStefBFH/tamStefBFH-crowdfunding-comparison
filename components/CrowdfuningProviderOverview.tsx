@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from 'next/link'
 
-const  Overview = ({ crowdfundingProvider }: { crowdfundingProvider: any}) => {
+const  CrowdfuningProviderOverview = ({ crowdfundingProvider }: { crowdfundingProvider: any}) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState<any>();
 
@@ -186,4 +186,4 @@ const  Overview = ({ crowdfundingProvider }: { crowdfundingProvider: any}) => {
       </div>
   )
 }
-export default Overview;
+export default CrowdfuningProviderOverview;
