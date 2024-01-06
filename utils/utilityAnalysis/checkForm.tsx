@@ -7,7 +7,6 @@ export const checkForm = (params: any) => {
 
     // check if form is correct and give specific error messages
     if (allAttributesSet && correctType && correctSumOfWeights && !doubleCriteria)  {
-    console.log('All attributes are set - Calculating...');
     } else if (!allAttributesSet) {
     return ('Some attributes are not set - Please check your input');
     } else if (!correctType) {

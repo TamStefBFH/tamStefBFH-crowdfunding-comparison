@@ -1,76 +1,56 @@
 'use client';
-import { useState, useEffect, Dispatch, SetStateAction, JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactFragment, ReactPortal } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import { calculateUtilityAnalysis } from '../utils/utilityAnalysis/calculation';
 import { checkForm } from '../utils/utilityAnalysis/checkForm';
+import { sortList } from '../utils/utilityAnalysis/sortList';
 import CrowdfuningProviderOverview from './CrowdfuningProviderOverview';
 
-interface Props {
-    value: string
-    setValue: Dispatch<SetStateAction<string>>
-  }
+const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfundingProviderData: any }) => {
 
-const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfundingProviderData: any}) => {
+  const [ratedCrowdFundingProvider, setRatedCrowdFundingProvider] = useState<any[]>([]);
+  const [params, setParams] = useState([
+    { id: 1, weight: '', criteria: '' },
+    { id: 2, weight: '', criteria: '' },
+    { id: 3, weight: '', criteria: '' },
+  ]);
 
-    //console.log('crowdfundingProviderData: ', crowdfundingProviderData);
-    const [selectedProvider, setSelectedProvider] = useState<any>();
-    const [showModal, setShowModal] = useState(false);
-    const [ratedCrowdFundingProvider, setRatedCrowdFundingProvider] = useState<any[]>([]);
-    const [params, setParams] = useState([
-        { id: 1, weight: '', criteria: '' },
-        { id: 2, weight: '', criteria: '' },
-        { id: 3, weight: '', criteria: '' },
-      ]);
-
-    const toggleModal = (providerId: number) => {
-        setShowModal(!showModal);
-        // set selected provider for modal
-        setSelectedProvider(crowdfundingProviderData[providerId]);
-    };
-
-    const handleTitleChange = (index:any, newWeight:any) => {
+  const handleTitleChange = (index: any, newWeight: any) => {
     const updatedParams = [...params];
     updatedParams[index].weight = newWeight;
     setParams(updatedParams);
-    };
+  };
 
-    const handleContentChange = (index:any, newCriteria:any) => {
+  const handleContentChange = (index: any, newCriteria: any) => {
     const updatedParams = [...params];
     updatedParams[index].criteria = newCriteria;
     setParams(updatedParams);
-    };  
+  };
 
-    const sortRatedCrowdFundingProvider = (list: any[], way: string) => {
-        if (way == 'asc') {
-            list.sort((a, b) => {
-                return a.score - b.score;
-            });
-        } else if (way == 'desc') {
-            list.sort((a, b) => {
-                return b.score - a.score;
-            });
-        }
-        return list
-    };
+  const saveChanges = () => {
+    const correctForm = checkForm(params);
+    if (correctForm === true) {
+      //calculates the utility analysis and sorts the list 
+      const ratedCrowdFundingProviderList = sortList(calculateUtilityAnalysis(params, crowdfundingProviderData));
+      setRatedCrowdFundingProvider(ratedCrowdFundingProviderList);
+    } else {
+      //alerts the user with the specific error message
+      alert(correctForm);
+    }
+  };
 
-    const saveChanges = () => {
-        const correctForm = checkForm(params);
-        if (correctForm === true) {
-            //calculates the utility analysis and sorts the list 
-            const ratedCrowdFundingProviderList = sortRatedCrowdFundingProvider(calculateUtilityAnalysis(params, crowdfundingProviderData),'desc');
-            setRatedCrowdFundingProvider(ratedCrowdFundingProviderList);
-        } else {
-            //alerts the user with the specific error message
-            alert(correctForm);
-        }
-      };
-
-      const deleteList = () => {
-        setRatedCrowdFundingProvider([]);
-      };
+  const deleteList = () => {
+    // reset the list and the params
+    setRatedCrowdFundingProvider([]);
+    setParams([
+      { id: 1, weight: '', criteria: '' },
+      { id: 2, weight: '', criteria: '' },
+      { id: 3, weight: '', criteria: '' },
+    ]);
+  };
 
   return (
     <div>
-      
+
       {ratedCrowdFundingProvider.length === 0 ? (
         <div>
           <div className="mb-5">
@@ -169,13 +149,13 @@ const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfunding
           >Ausrechnen</button>
         </div>
       ) : (
-          <>
-            <button
-              onClick={deleteList}
-              className="bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4"
-            >Neu ausrechnen</button>
-            <CrowdfuningProviderOverview crowdfundingProvider={ratedCrowdFundingProvider} ></CrowdfuningProviderOverview>
-          </>
+        <>
+          <button
+            onClick={deleteList}
+            className="bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4"
+          >Neu ausrechnen</button>
+          <CrowdfuningProviderOverview crowdfundingProvider={ratedCrowdFundingProvider} ></CrowdfuningProviderOverview>
+        </>
       )}
     </div>
   );
