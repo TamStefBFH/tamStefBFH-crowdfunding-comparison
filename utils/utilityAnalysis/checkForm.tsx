@@ -6,15 +6,15 @@ export const checkForm = (params: any) => {
     const doubleCriteria = !params.every((param: { criteria: string; }) => params.filter((p: { criteria: string; }) => p.criteria === param.criteria).length === 1);
 
     // check if form is correct and give specific error messages
-    if (allAttributesSet && correctType && correctSumOfWeights && !doubleCriteria)  {
+    if (allAttributesSet && correctType && correctSumOfWeights && !doubleCriteria) {
     } else if (!allAttributesSet) {
-    return ('Some attributes are not set - Please check your input');
+        return ('Some attributes are not set - Please check your input');
     } else if (!correctType) {
-    return ('Some attributes are not numbers - Please check your input');
+        return ('Some attributes are not numbers - Please check your input');
     } else if (!correctSumOfWeights) {
-    return ('Sum of weights is not 100% - Please check your input');
+        return ('Sum of weights is not 100% - Please check your input');
     } else if (doubleCriteria) {
-    return ('Some criteria are double - Please check your input');
+        return ('Some criteria are double - Please check your input');
     }
 
     return allAttributesSet && correctType && correctSumOfWeights && !doubleCriteria;

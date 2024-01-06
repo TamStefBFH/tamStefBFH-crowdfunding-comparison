@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 
 
 const UtilityAnalysis = async () => {
-
+  
   const cookieStore = cookies()
   const supabase = createClient(cookieStore);
   const { data: crowdfundingProvider } = await supabase.from("crowdfundingProvider").select();
@@ -19,6 +19,3 @@ const UtilityAnalysis = async () => {
 };
 
 export default UtilityAnalysis;
-
-
-

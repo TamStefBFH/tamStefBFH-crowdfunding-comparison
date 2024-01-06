@@ -9,7 +9,7 @@ const defaultUrl = process.env.VERCEL_URL
 export const metadata = {
   metadataBase: new URL(defaultUrl),
   title: 'Crowdfunding Utility Analysis',
-  description: 'Crowdfunding Utility Analysis - A tool to compare crowdfunding providers' 
+  description: 'Crowdfunding Utility Analysis - A tool to compare crowdfunding providers'
 }
 
 export default function RootLayout({
