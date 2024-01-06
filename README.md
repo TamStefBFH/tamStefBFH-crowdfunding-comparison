@@ -15,6 +15,6 @@ Um die Applikation lokal zum Laufen zu bringen m체ssen folgende Schritte ausgef�
 2. Download node.js (Version > 18)
 3. ```npm install```
 4. ```npm install jest``` -> Nur wenn die Tests ausgef체hrt werden sollen.
-  1. ```npm test``` -> Um die Tests auszuf체hren
+    1. ```npm test``` -> Um die Tests auszuf체hren
 5. ```npm run dev```-> Das Projekt wird unter localhost:3000 erreichbar sein.
 6. Da die Datenbank Credentials gegeben sein m체ssen, welche nicht in diesem Repository zu finden sind, kann man mich bei Interesse unter der folgenden Email-Adresse kontaktieren: robin.muehlemann@students.bfh.ch
