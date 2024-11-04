@@ -10,10 +10,10 @@ const Sidebar = ({
   return (
     <>
       <div
-        className="sidebar-container fixed w-full h-full overflow-hidden justify-center bg-white grid pt-[120px] left-0 z-10"
+        className="sidebar-container fixed w-full h-full overflow-hidden justify-center bg-white grid pt-[120px] left-0 z-10 transition-all duration-500 ease-in-out"
         style={{
           opacity: `${isOpen ? "1" : "0"}`,
-          top: ` ${isOpen ? "0" : "-100%"}`,
+          top: `${isOpen ? "0" : "-100%"}`,
         }}
       >
         <button className="absolute right-0 p-5" onClick={toggle}>
@@ -37,6 +37,21 @@ const Sidebar = ({
               <p>Nutzwertanalyse</p>
             </Link>
           </li>
+          <li>
+            <Link href="/gymi-courses" onClick={toggle}>
+              <p>Gymi-Kurse</p> {/* Neue Seite */}
+            </Link>
+          </li>
+          <li>
+            <Link href="/about" onClick={toggle}>
+              <p>Über uns</p> {/* Über uns Seite */}
+            </Link>
+          </li>
+          <li>
+            <Link href="/contact" onClick={toggle}>
+              <p>Kontakt</p> {/* Kontakt Seite */}
+            </Link>
+          </li>
         </ul>
       </div>
     </>
@@ -44,3 +59,4 @@ const Sidebar = ({
 };
 
 export default Sidebar;
+

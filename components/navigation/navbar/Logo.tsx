@@ -2,7 +2,6 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Button from "./Button";
 
 const Logo = () => {
   //update the size of the logo when the size of the screen changes
@@ -18,15 +17,14 @@ const Logo = () => {
     updateWidth();
   }, []);
 
-  // change between the logo and the button when the user scrolls
-
   return (
     <>
       <Link href="/">
-        <p className="text-2xl text-cr-darkgrey">Crowdfunding-Comparison</p>
+        <p className="text-2xl text-cr-darkgrey">Gymi-Vorbereitungskurse Vergleich</p> {/* Angepasster Text */}
       </Link>
     </>
   );
 };
 
 export default Logo;
+

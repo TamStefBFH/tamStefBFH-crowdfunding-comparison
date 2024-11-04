@@ -1,4 +1,4 @@
-import CrowdfuningProviderOverview from '@/components/CrowdfuningProviderOverview';
+import CrowdfuningProviderOverview from '@/components/GymiProviderOverview';
 import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 
