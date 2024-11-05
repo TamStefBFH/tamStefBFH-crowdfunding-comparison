@@ -1,18 +1,7 @@
-type ButtonProps = {
-  text: string;
-  onClick?: () => void;
-};
-
-const Button = ({ text, onClick }: ButtonProps) => {
+const Button = () => {
   return (
-    <button
-      className="h-12 rounded-lg bg-cr-darkgrey text-white font-bold px-5"
-      onClick={onClick}
-    >
-      {text}
-    </button>
+    <button className="h-12 rounded-lg bg-cr-darkgrey text-white font-bold px-5">Sign In</button>
   );
 };
 
 export default Button;
-

@@ -29,13 +29,11 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
             </button>
             <ul className="hidden md:flex gap-x-20 text-cr-darkgrey ">
               <li>
-                <Link href="/utility-analysis">Nutzwertanalyse</Link>
-              </li>
-              <li>
-                <Link href="/gymi-courses">Gymi-Kurse</Link>
+                <Link href="/utility-analysis">
+                  <p>Nutzwertanalyse</p>
+                </Link>
               </li>
             </ul>
-            <Button text="Sign In" /> {/* Sign-In Button mit Prop `text` */}
           </div>
         </div>
       </div>
@@ -44,4 +42,3 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
 };
 
 export default Navbar;
-
