@@ -2,17 +2,15 @@ import UtilityAnalysisInteraction from "../../components/UtilityAnalysisInteract
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 
-
 const UtilityAnalysis = async () => {
-  
-  const cookieStore = cookies()
+  const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  const { data: crowdfundingProvider } = await supabase.from("crowdfundingProvider").select();
+  const { data: gymiProviders } = await supabase.from("gymiProviders").select();
 
   return (
     <div className="container mx-auto px-4 sm:px-8">
       <div className="py-8">
-        <UtilityAnalysisInteraction crowdfundingProviderData={crowdfundingProvider} />
+        <UtilityAnalysisInteraction gymiProvidersData={gymiProviders} />
       </div>
     </div>
   );

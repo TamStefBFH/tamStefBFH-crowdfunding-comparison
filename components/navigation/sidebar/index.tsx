@@ -12,8 +12,8 @@ const Sidebar = ({
       <div
         className="sidebar-container fixed w-full h-full overflow-hidden justify-center bg-white grid pt-[120px] left-0 z-10"
         style={{
-          opacity: `${isOpen ? "1" : "0"}`,
-          top: ` ${isOpen ? "0" : "-100%"}`,
+          opacity: isOpen ? "1" : "0",
+          top: isOpen ? "0" : "-100%",
         }}
       >
         <button className="absolute right-0 p-5" onClick={toggle}>

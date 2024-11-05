@@ -1,15 +1,15 @@
 'use client';
 import React, { useState } from "react";
-import Link from 'next/link'
+import Link from 'next/link';
 
-const CrowdfuningProviderOverview = ({ crowdfundingProvider }: { crowdfundingProvider: any }) => {
+const GymiProviderOverview = ({ gymiProviders }: { gymiProviders: any }) => {
     const [showModal, setShowModal] = useState(false);
     const [selectedProvider, setSelectedProvider] = useState<any>();
 
     const toggleModal = (providerId: number) => {
         setShowModal(!showModal);
-        if (crowdfundingProvider) {
-            setSelectedProvider(crowdfundingProvider[providerId]);
+        if (gymiProviders) {
+            setSelectedProvider(gymiProviders[providerId]);
         }
     }
 
@@ -17,14 +17,14 @@ const CrowdfuningProviderOverview = ({ crowdfundingProvider }: { crowdfundingPro
         <div>
             {/*---------------------------------------- AFTER CALCULATION ---------------------------------------- */}
             <div className="flex min-h-screen flex-col items-start">
-                {crowdfundingProvider && crowdfundingProvider[0].score >= 0 ? (
-                    <h1 className="text-3xl flex mt-7">All Crowdfunding Provider with Score</h1>
+                {gymiProviders && gymiProviders[0].score >= 0 ? (
+                    <h1 className="text-3xl flex mt-7">All Gymi Providers with Score</h1>
                 ) : (
-                    <h1 className="text-3xl flex mt-7">All Crowdfunding Provider</h1>
+                    <h1 className="text-3xl flex mt-7">All Gymi Providers</h1>
                 )}
                 <div className="container my-12 mx-auto ">
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
-                        {crowdfundingProvider && crowdfundingProvider.map((provider: any, index: number) => (
+                        {gymiProviders && gymiProviders.map((provider: any, index: number) => (
                             <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" key={index}>
                                 <article className="overflow-hidden rounded-lg shadow-lg">
                                     {/*For loop over the criteria that can be chosen*/}
@@ -115,37 +115,31 @@ const CrowdfuningProviderOverview = ({ crowdfundingProvider }: { crowdfundingPro
                                                                     <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
                                                                         <i className="fi fi-sr-signal-stream mr-2 mb-0 flex"></i>
                                                                         <span className="mt-2 xl:mt-0">
-                                                                            Reichweite: {selectedProvider && selectedProvider.reach}
+                                                                            Preis-Leistungs-Verhältnis: {selectedProvider && selectedProvider.pricePerformance}
                                                                         </span>
                                                                     </p>
                                                                     <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
                                                                         <i className="fi fi-bs-heart mr-2 mb-0 flex"></i>
                                                                         <span className="mt-2 xl:mt-0">
-                                                                            Erfahrungen: {selectedProvider && selectedProvider.trustworthiness}
+                                                                            Qualität des Unterrichts: {selectedProvider && selectedProvider.quality}
                                                                         </span>
                                                                     </p>
                                                                     <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
                                                                         <i className="fi fi-rr-coins mr-2 mb-0 flex"></i>
                                                                         <span className="mt-2 xl:mt-0">
-                                                                            Kosten: {selectedProvider && selectedProvider.cost}
+                                                                            Flexibilität der Kursgestaltung: {selectedProvider && selectedProvider.flexibility}
                                                                         </span>
                                                                     </p>
                                                                     <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
                                                                         <i className="fi fi-rr-marker mr-2 mb-0"></i>
                                                                         <span className="mt-2 xl:mt-0">
-                                                                            Sitz: {selectedProvider && selectedProvider.location}
+                                                                            Standort: {selectedProvider && selectedProvider.location}
                                                                         </span>
                                                                     </p>
                                                                     <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
                                                                         <i className="fi fi-rr-book-section mr-2 mb-0 flex"></i>
                                                                         <span className="mt-2 xl:mt-0">
-                                                                            Sektor: {selectedProvider && selectedProvider.sector}
-                                                                        </span>
-                                                                    </p>
-                                                                    <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                                                                        <i className="fi fi-rr-document-signed mr-2 mb-0 flex"></i>
-                                                                        <span className="mt-2 xl:mt-0">
-                                                                            Art: {selectedProvider && selectedProvider.crowdfundingType}
+                                                                            Zusatzleistungen: {selectedProvider && selectedProvider.additionalServices}
                                                                         </span>
                                                                     </p>
                                                                 </div>
@@ -186,4 +180,4 @@ const CrowdfuningProviderOverview = ({ crowdfundingProvider }: { crowdfundingPro
         </div>
     )
 }
-export default CrowdfuningProviderOverview;
+export default GymiProviderOverview;

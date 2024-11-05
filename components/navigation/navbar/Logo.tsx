@@ -5,7 +5,7 @@ import Link from "next/link";
 import Button from "./Button";
 
 const Logo = () => {
-  //update the size of the logo when the size of the screen changes
+  // Update the size of the logo when the size of the screen changes
   const [width, setWidth] = useState(0);
 
   const updateWidth = () => {
@@ -16,9 +16,8 @@ const Logo = () => {
   useEffect(() => {
     window.addEventListener("resize", updateWidth);
     updateWidth();
+    return () => window.removeEventListener("resize", updateWidth);
   }, []);
-
-  // change between the logo and the button when the user scrolls
 
   return (
     <>

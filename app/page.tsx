@@ -1,15 +1,15 @@
-import CrowdfuningProviderOverview from '@/components/GymiProviderOverview';
-import { createClient } from '@/utils/supabase/server'
-import { cookies } from 'next/headers'
+import GymiProviderOverview from '@/components/GymiProviderOverview';
+import { createClient } from '@/utils/supabase/server';
+import { cookies } from 'next/headers';
 
 export default async function Index() {
-    const cookieStore = cookies()
+    const cookieStore = cookies();
     const supabase = createClient(cookieStore);
-    const { data: crowdfundingProvider } = await supabase.from("crowdfundingProvider").select();
+    const { data: gymiProviders } = await supabase.from("gymiProviders").select();
 
     return (
         <>
-            <CrowdfuningProviderOverview crowdfundingProvider={crowdfundingProvider} ></CrowdfuningProviderOverview>
+            <GymiProviderOverview gymiProviders={gymiProviders} />
         </>
-    )
+    );
 }

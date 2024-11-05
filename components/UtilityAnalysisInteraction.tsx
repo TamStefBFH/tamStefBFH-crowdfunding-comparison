@@ -5,13 +5,15 @@ import { checkForm } from '../utils/utilityAnalysis/checkForm';
 import { sortList } from '../utils/utilityAnalysis/sortList';
 import GymiProviderOverview from './GymiProviderOverview';
 
-const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfundingProviderData: any }) => {
+const UtilityAnalysisInteraction = ({ gymiProvidersData }: { gymiProvidersData: any }) => {
 
-  const [ratedCrowdFundingProvider, setRatedCrowdFundingProvider] = useState<any[]>([]);
+  const [ratedGymiProviders, setRatedGymiProviders] = useState<any[]>([]);
   const [params, setParams] = useState([
     { id: 1, weight: '', criteria: '' },
     { id: 2, weight: '', criteria: '' },
     { id: 3, weight: '', criteria: '' },
+    { id: 4, weight: '', criteria: '' },
+    { id: 5, weight: '', criteria: '' },
   ]);
 
   const handleTitleChange = (index: any, newWeight: any) => {
@@ -30,8 +32,8 @@ const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfunding
     const correctForm = checkForm(params);
     if (correctForm === true) {
       //calculates the utility analysis and sorts the list 
-      const ratedCrowdFundingProviderList = sortList(calculateUtilityAnalysis(params, crowdfundingProviderData));
-      setRatedCrowdFundingProvider(ratedCrowdFundingProviderList);
+      const ratedGymiProvidersList = sortList(calculateUtilityAnalysis(params, gymiProvidersData));
+      setRatedGymiProviders(ratedGymiProvidersList);
     } else {
       //alerts the user with the specific error message
       alert(correctForm);
@@ -40,18 +42,20 @@ const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfunding
 
   const deleteList = () => {
     // reset the list and the params
-    setRatedCrowdFundingProvider([]);
+    setRatedGymiProviders([]);
     setParams([
       { id: 1, weight: '', criteria: '' },
       { id: 2, weight: '', criteria: '' },
       { id: 3, weight: '', criteria: '' },
+      { id: 4, weight: '', criteria: '' },
+      { id: 5, weight: '', criteria: '' },
     ]);
   };
 
   return (
     <div>
 
-      {ratedCrowdFundingProvider.length === 0 ? (
+      {ratedGymiProviders.length === 0 ? (
         <div>
           <div className="mb-5">
             <h2 className="text-2xl font-semibold leading-tight mb-2">
@@ -61,8 +65,8 @@ const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfunding
           <p>
             Bitte wählen Sie Kriterien, die für die Nutzwertanalyse verwendet
             werden sollen aus. <br />
-            Die Kriterien müssen einzeln Gewichtet werden. Dabei ist zu
-            beachtenm, dass die Summe am Ende 100% ergeben muss
+            Die Kriterien müssen einzeln gewichtet werden. Dabei ist zu
+            beachten, dass die Summe am Ende 100% ergeben muss
           </p>
           <form action="">
             <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -84,7 +88,7 @@ const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfunding
                         <div className="flex-shrink-0 w-10 h-10">
                           <img
                             className="w-full h-full"
-                            src="   https://cdn-icons-png.flaticon.com/512/847/847345.png"
+                            src="https://cdn-icons-png.flaticon.com/512/847/847345.png"
                             alt=""
                           />
                         </div>
@@ -103,14 +107,15 @@ const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfunding
                                 className="h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
                                 value={param.criteria === '' ? '' : param.criteria}
                                 onChange={(e) => handleContentChange(index, e.target.value)}
-
                               >
                                 <option value="" disabled hidden>
                                   Kriterium auswählen
                                 </option>
-                                <option value="reach">Reichweite</option>
-                                <option value="cost">Kosten</option>
-                                <option value="trustworthiness">Vertrauenswürdigkeit</option>
+                                <option value="price-performance">Preis-Leistungs-Verhältnis</option>
+                                <option value="quality">Qualität des Unterrichts</option>
+                                <option value="flexibility">Flexibilität der Kursgestaltung</option>
+                                <option value="additional-services">Zusatzleistungen</option>
+                                <option value="location">Standort</option>
                               </select>
                               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 <svg
@@ -128,7 +133,7 @@ const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfunding
                           <div className="flex items-center flex-row" >
                             <input
                               className="p-16 bg-white focus:outline-none focus:shadow-outline border border-gray-500 rounded-md py-2 px-2 block appearance-none leading-normal"
-                              type="email"
+                              type="number"
                               placeholder="Gewichtung"
                               value={param.weight}
                               onChange={(e) => handleTitleChange(index, e.target.value)}
@@ -154,7 +159,7 @@ const UtilityAnalysisInteraction = ({ crowdfundingProviderData }: { crowdfunding
             onClick={deleteList}
             className="bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4"
           >Neu ausrechnen</button>
-          <GymiProviderOverview crowdfundingProvider={ratedCrowdFundingProvider} ></GymiProviderOverview>
+          <GymiProviderOverview gymiProviders={ratedGymiProviders}></GymiProviderOverview>
         </>
       )}
     </div>

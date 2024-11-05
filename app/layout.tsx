@@ -1,16 +1,16 @@
 import Navigation from "../components/navigation";
-import { GeistSans } from 'geist/font/sans'
-import './globals.css'
+import { GeistSans } from 'geist/font/sans';
+import './globals.css';
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : 'http://localhost:3000'
+  : 'http://localhost:3000';
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Crowdfunding Utility Analysis',
-  description: 'Crowdfunding Utility Analysis - A tool to compare crowdfunding providers'
-}
+  title: 'Gymi Preparation Course Scoring System',
+  description: 'Gymi Preparation Course Scoring System - A tool to compare preparation course providers'
+};
 
 export default function RootLayout({
   children,
@@ -26,5 +26,5 @@ export default function RootLayout({
         </main>
       </body>
     </html>
-  )
+  );
 }
