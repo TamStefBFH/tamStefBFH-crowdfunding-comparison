@@ -1,7 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Logo from "./Logo";
-import Button from "./Button";
 
 const Navbar = ({ toggle }: { toggle: () => void }) => {
   return (
@@ -9,7 +7,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
       <div className="w-full h-20 bg-white sticky top-0 shadow-md">
         <div className="container mx-auto px-4 h-full">
           <div className="flex justify-between items-center h-full">
-            <Logo />
+            <h1 className="text-xl font-bold">Vergleich Gymi-Vorbereitungskurse</h1>
             <button
               type="button"
               className="inline-flex items-center md:hidden"
@@ -27,12 +25,9 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                 />
               </svg>
             </button>
-            <ul className="hidden md:flex gap-x-20 text-cr-darkgrey ">
-              <li>
-                <Link href="/utility-analysis">
-                  <p>Nutzwertanalyse</p>
-                </Link>
-              </li>
+            {/* Entfernen Sie hier die Nutzwertanalyse aus dem Menü */}
+            <ul className="hidden md:flex gap-x-20 text-cr-darkgrey">
+              {/* Entfernen Sie den Menüpunkt, wenn Sie ihn nicht anzeigen möchten */}
             </ul>
           </div>
         </div>

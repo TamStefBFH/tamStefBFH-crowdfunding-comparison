@@ -1,8 +1,8 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
-export const createClient = () => {
-  const cookieStore = cookies(); // Direktes synchrones Objekt
+export const createClient = async () => {
+  const cookieStore = await cookies(); // await hier hinzufügen, um das Promise zu lösen
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -10,21 +10,25 @@ export const createClient = () => {
     {
       cookies: {
         async get(name: string) {
-          const cookie = await cookieStore.then(store => store.get(name));
+          const cookie = await cookieStore.get(name);
           return cookie?.value;
         },
-        async set(name: string, value: string, options: CookieOptions) {
+        set(name: string, value: string, options: CookieOptions) {
           try {
-            await cookieStore.then(store => store.set({ name, value, ...options }));
+            cookieStore.set({ name, value, ...options });
           } catch (error) {
-            // Fehler ignorieren, wenn von einer Server-Komponente gesetzt wird
+            // The `set` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing
+            // user sessions.
           }
         },
-        async remove(name: string, options: CookieOptions) {
+        remove(name: string, options: CookieOptions) {
           try {
-            await cookieStore.then(store => store.set({ name, value: '', ...options }));
+            cookieStore.set({ name, value: '', ...options });
           } catch (error) {
-            // Fehler ignorieren, wenn von einer Server-Komponente entfernt wird
+            // The `delete` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing
+            // user sessions.
           }
         },
       },
