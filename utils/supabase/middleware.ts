@@ -9,26 +9,21 @@ export const createClient = (request: NextRequest) => {
     },
   });
 
+  // Prüfen, ob die Umgebungsvariablen gesetzt sind
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    throw new Error('Supabase-Umgebungsvariablen sind nicht definiert');
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
         get(name: string) {
           return request.cookies.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
-          // If the cookie is updated, update the cookies for the request and response
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          });
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
+          // Setze die Cookies direkt auf die Response
           response.cookies.set({
             name,
             value,
@@ -36,20 +31,11 @@ export const createClient = (request: NextRequest) => {
           });
         },
         remove(name: string, options: CookieOptions) {
-          // If the cookie is removed, update the cookies for the request and response
-          request.cookies.set({
-            name,
-            value: '',
-            ...options,
-          });
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
+          // Entferne die Cookies, indem expires auf einen vergangenen Zeitpunkt gesetzt wird
           response.cookies.set({
             name,
             value: '',
+            expires: new Date(0),
             ...options,
           });
         },

@@ -1,5 +1,11 @@
-export const calculateUtilityAnalysis = (params: any, gymiProvidersData: any) => { 
-  gymiProvidersData.map((provider: any, index: number) => {
+export const calculateUtilityAnalysis = (params: any, GymiProviders: any) => { 
+  // Überprüfe, ob GymiProviders vorhanden ist und Daten enthält
+  if (!GymiProviders || GymiProviders.length === 0) {
+    console.error("GymiProviders is null or empty");
+    return [];
+  }
+
+  GymiProviders.map((provider: any, index: number) => {
     // Preis-Leistungs-Verhältnis Berechnung
     const priceWeight = Number(params.find((param: { criteria: string; }) => param.criteria === 'price-performance')?.weight);
     let scorePricePerformance = 0;
@@ -67,5 +73,5 @@ export const calculateUtilityAnalysis = (params: any, gymiProvidersData: any) =>
     provider.score = Number(scorePrice + scoreQuality + scoreFlex + scoreAdditional + scoreLoc).toFixed(2);
   });
 
-  return gymiProvidersData;
+  return GymiProviders;
 };

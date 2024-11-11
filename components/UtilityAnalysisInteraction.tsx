@@ -5,7 +5,7 @@ import { checkForm } from '../utils/utilityAnalysis/checkForm';
 import { sortList } from '../utils/utilityAnalysis/sortList';
 import GymiProviderOverview from './GymiProviderOverview';
 
-const UtilityAnalysisInteraction = ({ gymiProvidersData }: { gymiProvidersData: any }) => {
+const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: { GymiProviders: any, CourseDetails: any }) => {
 
   const [ratedGymiProviders, setRatedGymiProviders] = useState<any[]>([]);
   const [params, setParams] = useState([
@@ -31,11 +31,16 @@ const UtilityAnalysisInteraction = ({ gymiProvidersData }: { gymiProvidersData: 
   const saveChanges = () => {
     const correctForm = checkForm(params);
     if (correctForm === true) {
-      //calculates the utility analysis and sorts the list 
-      const ratedGymiProvidersList = sortList(calculateUtilityAnalysis(params, gymiProvidersData));
-      setRatedGymiProviders(ratedGymiProvidersList);
+      if (GymiProviders && GymiProviders.length > 0) {
+        // calculates the utility analysis and sorts the list 
+        const ratedGymiProvidersList = sortList(calculateUtilityAnalysis(params, GymiProviders));
+        setRatedGymiProviders(ratedGymiProvidersList);
+      } else {
+        console.error("No data available for Gymi providers");
+        alert("Keine Daten für Gymi-Anbieter verfügbar.");
+      }
     } else {
-      //alerts the user with the specific error message
+      // alerts the user with the specific error message
       alert(correctForm);
     }
   };
@@ -54,7 +59,6 @@ const UtilityAnalysisInteraction = ({ gymiProvidersData }: { gymiProvidersData: 
 
   return (
     <div>
-
       {ratedGymiProviders.length === 0 ? (
         <div>
           <div className="mb-5">
@@ -75,71 +79,41 @@ const UtilityAnalysisInteraction = ({ gymiProvidersData }: { gymiProvidersData: 
                   <thead>
                     <tr>
                       <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        <div className="flex-shrink-0 w-10 h-10">
-                          <img
-                            className="w-full h-full"
-                            src="https://cdn-icons-png.flaticon.com/512/6404/6404370.png"
-                            alt=""
-                          />
-                        </div>
                         Kriterien
                       </th>
                       <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        <div className="flex-shrink-0 w-10 h-10">
-                          <img
-                            className="w-full h-full"
-                            src="https://cdn-icons-png.flaticon.com/512/847/847345.png"
-                            alt=""
-                          />
-                        </div>
                         Gewichtung - total max 100%
                       </th>
                     </tr>
                   </thead>
-                  {/*For loop over the criteria that can be chosen*/}
                   <tbody>
                     {params.map((param, index) => (
                       <tr key={index}>
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <div className="flex items-center">
-                            <div className="relative">
-                              <select
-                                className="h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
-                                value={param.criteria === '' ? '' : param.criteria}
-                                onChange={(e) => handleContentChange(index, e.target.value)}
-                              >
-                                <option value="" disabled hidden>
-                                  Kriterium auswählen
-                                </option>
-                                <option value="price-performance">Preis-Leistungs-Verhältnis</option>
-                                <option value="quality">Qualität des Unterrichts</option>
-                                <option value="flexibility">Flexibilität der Kursgestaltung</option>
-                                <option value="additional-services">Zusatzleistungen</option>
-                                <option value="location">Standort</option>
-                              </select>
-                              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg
-                                  className="fill-current h-4 w-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                </svg>
-                              </div>
-                            </div>
-                          </div>
+                          <select
+                            className="h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+                            value={param.criteria === '' ? '' : param.criteria}
+                            onChange={(e) => handleContentChange(index, e.target.value)}
+                          >
+                            <option value="" disabled hidden>
+                              Kriterium auswählen
+                            </option>
+                            <option value="price-performance">Preis-Leistungs-Verhältnis</option>
+                            <option value="quality">Qualität des Unterrichts</option>
+                            <option value="flexibility">Flexibilität der Kursgestaltung</option>
+                            <option value="additional-services">Zusatzleistungen</option>
+                            <option value="location">Standort</option>
+                          </select>
                         </td>
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <div className="flex items-center flex-row" >
-                            <input
-                              className="p-16 bg-white focus:outline-none focus:shadow-outline border border-gray-500 rounded-md py-2 px-2 block appearance-none leading-normal"
-                              type="number"
-                              placeholder="Gewichtung"
-                              value={param.weight}
-                              onChange={(e) => handleTitleChange(index, e.target.value)}
-                            />
-                            <p className="ml-2">%</p>
-                          </div>
+                          <input
+                            className="p-16 bg-white focus:outline-none focus:shadow-outline border border-gray-500 rounded-md py-2 px-2 block appearance-none leading-normal"
+                            type="number"
+                            placeholder="Gewichtung"
+                            value={param.weight}
+                            onChange={(e) => handleTitleChange(index, e.target.value)}
+                          />
+                          <p className="ml-2">%</p>
                         </td>
                       </tr>
                     ))}
@@ -151,14 +125,18 @@ const UtilityAnalysisInteraction = ({ gymiProvidersData }: { gymiProvidersData: 
           <button
             onClick={saveChanges}
             className="bg-gray-700 text-white font-bold py-2 px-4 rounded"
-          >Ausrechnen</button>
+          >
+            Ausrechnen
+          </button>
         </div>
       ) : (
         <>
           <button
             onClick={deleteList}
             className="bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4"
-          >Neu ausrechnen</button>
+          >
+            Neu ausrechnen
+          </button>
           <GymiProviderOverview gymiProviders={ratedGymiProviders}></GymiProviderOverview>
         </>
       )}
