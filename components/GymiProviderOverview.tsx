@@ -18,11 +18,7 @@ const GymiProviderOverview = ({ gymiProviders }: { gymiProviders: any }) => {
     return (
         <div>
             <div className="flex min-h-screen flex-col items-start">
-                {gymiProviders && gymiProviders[0].score >= 0 ? (
-                    <h1 className="text-3xl flex mt-7">All Gymi Providers with Score</h1>
-                ) : (
-                    <h1 className="text-3xl flex mt-7">All Gymi Providers</h1>
-                )}
+                <h1 className="text-3xl flex mt-7">All Gymi Providers</h1>
                 <div className="container my-12 mx-auto">
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
                         {gymiProviders && gymiProviders.map((provider: any, index: number) => (
@@ -36,7 +32,11 @@ const GymiProviderOverview = ({ gymiProviders }: { gymiProviders: any }) => {
                                             <p className="text-grey-darker text-sm">
                                                 Score: {provider.score}
                                             </p>
-                                        ) : null}
+                                        ) : (
+                                            <p className="text-grey-darker text-sm">
+                                                Score: Nicht verfügbar
+                                            </p>
+                                        )}
                                     </header>
 
                                     <footer className="flex items-center justify-between leading-none p-2 md:p-4">
@@ -55,7 +55,7 @@ const GymiProviderOverview = ({ gymiProviders }: { gymiProviders: any }) => {
                                 </article>
 
                                 {showModal && selectedProvider && selectedProvider === gymiProviders[index] ? (
-                                    <>
+                                    <div>
                                         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                                             <div className="relative w-auto my-6 mx-auto max-w-md">
                                                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
@@ -100,7 +100,7 @@ const GymiProviderOverview = ({ gymiProviders }: { gymiProviders: any }) => {
                                                                 <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
                                                                     <i className="fi fi-rr-marker mr-2 mb-0"></i>
                                                                     <span className="mt-2 xl:mt-0">
-                                                                        Standort: {selectedProvider.location || 'Nicht verfügbar'}
+                                                                        Standort: {selectedProvider.location || 'Standort nicht verfügbar'}
                                                                     </span>
                                                                 </p>
                                                                 <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
@@ -138,7 +138,7 @@ const GymiProviderOverview = ({ gymiProviders }: { gymiProviders: any }) => {
                                             </div>
                                         </div>
                                         <div className="opacity-5 fixed inset-0 z-40 bg-black"></div>
-                                    </>
+                                    </div>
                                 ) : null}
                             </div>
                         ))}
@@ -150,4 +150,3 @@ const GymiProviderOverview = ({ gymiProviders }: { gymiProviders: any }) => {
 };
 
 export default GymiProviderOverview;
-
