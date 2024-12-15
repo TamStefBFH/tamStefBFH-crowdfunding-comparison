@@ -28,14 +28,14 @@ export const calculateUtilityAnalysis = (params: any, GymiProviders: any) => {
 
     // Qualität des Unterrichts Berechnung
     const qualityWeight = Number(params.find((param: { criteria: string; }) => param.criteria === 'quality')?.weight);
-    const scoreQuality = (provider['Qualität des Unterrichts'] / 3) * qualityWeight;
+    const scoreQuality = (provider['Qualitaetsbewertung'] / 3) * qualityWeight;
 
     // Flexibilität der Kursgestaltung Berechnung
     const flexibilityWeight = Number(params.find((param: { criteria: string; }) => param.criteria === 'flexibility')?.weight);
     let scoreFlexibility = 0;
-    if (provider['Unterrichtstage'] >= 4) {
+    if (provider['Unterrichttag'] >= 4) {
       scoreFlexibility += 3;
-    } else if (provider['Unterrichtstage'] >= 2) {
+    } else if (provider['Unterrichttag'] >= 2) {
       scoreFlexibility += 2;
     } else {
       scoreFlexibility += 1;
@@ -52,17 +52,18 @@ export const calculateUtilityAnalysis = (params: any, GymiProviders: any) => {
     let scoreAdditionalServices = 0;
     scoreAdditionalServices += provider['E-Learning'] ? 1 : 0;
     scoreAdditionalServices += provider['Eigene Lernunterlagen'] ? 1 : 0;
-    scoreAdditionalServices += provider['Nachholmöglichkeiten'] ? 1 : 0;
-    scoreAdditionalServices += provider['Direkte Unterstützung'] ? 1 : 0;
-    scoreAdditionalServices += provider['Weitere Zusatzleistungen'] ? 1 : 0;
+    scoreAdditionalServices += provider['Nachholmoeglichkeiten'] ? 1 : 0;
+    scoreAdditionalServices += provider['Unterstuezung ausserhalb Unterrichtszeit'] ? 1 : 0;
+    scoreAdditionalServices += provider['Pruefungsarchiv'] ? 1 : 0;
+    scoreAdditionalServices += provider['Aufsatzkorrektur'] ? 1 : 0;
     const scoreAdditional = (scoreAdditionalServices / 5) * additionalServicesWeight;
 
     // Standort Berechnung
     const locationWeight = Number(params.find((param: { criteria: string; }) => param.criteria === 'location')?.weight);
     let scoreLocation = 0;
-    if (provider['Unterrichtstage'] >= 4) {
+    if (provider['Unterrichttag'] >= 4) {
       scoreLocation = 3;
-    } else if (provider['Unterrichtstage'] >= 2) {
+    } else if (provider['Unterrichttag'] >= 2) {
       scoreLocation = 2;
     } else {
       scoreLocation = 1;

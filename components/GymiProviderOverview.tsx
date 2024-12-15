@@ -1,8 +1,16 @@
 'use client';
 import React, { useState } from "react";
 import Link from 'next/link';
+import { Database } from "@/database.types";
 
-const GymiProviderOverview = ({ gymiProviders }: { gymiProviders: any }) => {
+type GymiProviders = Database['public']['Tables']['GymiProviders']['Row']
+
+interface GymiProviderOverviewProps {
+    gymiProviders: GymiProviders[],
+    score: number
+}
+
+const GymiProviderOverview = ({ gymiProviders, score }: GymiProviderOverviewProps) => {
     const [showModal, setShowModal] = useState(false);
     const [selectedProvider, setSelectedProvider] = useState<any>();
 
@@ -21,16 +29,16 @@ const GymiProviderOverview = ({ gymiProviders }: { gymiProviders: any }) => {
                 <h1 className="text-3xl flex mt-7">All Gymi Providers</h1>
                 <div className="container my-12 mx-auto">
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
-                        {gymiProviders && gymiProviders.map((provider: any, index: number) => (
+                        {gymiProviders && gymiProviders.map((provider, index: number) => (
                             <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" key={index}>
                                 <article className="overflow-hidden rounded-lg shadow-lg">
                                     <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                                         <h1 className="text-lg">
-                                            {provider.name || 'Name nicht verfügbar'}
+                                            {provider.Name || 'Name nicht verfügbar'}
                                         </h1>
-                                        {provider.score ? (
+                                        {score ? (
                                             <p className="text-grey-darker text-sm">
-                                                Score: {provider.score}
+                                                Score: {score}
                                             </p>
                                         ) : (
                                             <p className="text-grey-darker text-sm">
@@ -49,7 +57,7 @@ const GymiProviderOverview = ({ gymiProviders }: { gymiProviders: any }) => {
                                         </button>
                                         <p className="ml-2">
                                             <i className="fi fi-rr-marker mr-2 mb-0"></i>
-                                            {provider.location || 'Standort nicht verfügbar'}
+                                            {provider.Standort || 'Standort nicht verfügbar'}
                                         </p>
                                     </footer>
                                 </article>

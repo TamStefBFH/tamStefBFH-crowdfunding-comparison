@@ -31,9 +31,11 @@ const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: { GymiProv
     const correctForm = checkForm(params);
     if (correctForm === true) {
       if (GymiProviders && GymiProviders.length > 0) {
-        // Map GymiProviders and CourseDetails data to match the criteria fields
-        const mappedProviders = GymiProviders.map((provider: any, index: number) => {
-          const courseDetail = CourseDetails[index] || {}; // Use the corresponding CourseDetail, if exists
+        // Map GymiProviders and CourseDetails data using the matching ID
+        const mappedProviders = GymiProviders.map((provider: any) => {
+          // Find the corresponding CourseDetail entry based on ID
+          const courseDetail = CourseDetails.find((detail: any) => detail.ID === provider.ID) || {};
+
           return {
             pricePerformance: provider["Preis Langzeit Kurs"] || provider["Preis Intensiver Kurs"],
             quality: courseDetail.Qualitaetsbewertung || 'Nicht verfügbar',
@@ -148,7 +150,7 @@ const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: { GymiProv
           >
             Neu ausrechnen
           </button>
-          <GymiProviderOverview gymiProviders={ratedGymiProviders}></GymiProviderOverview>
+          <GymiProviderOverview gymiProviders={ratedGymiProviders} score={0}></GymiProviderOverview>
         </>
       )}
     </div>

@@ -5,7 +5,8 @@
     "build": "next build",
     "start": "next start",
     "test": "jest",
-    "clear_jest": "jest --clearCache"
+    "clear_jest": "jest --clearCache",
+    "generate": "npx supabase gen types --lang=typescript --project-id anwzvgwokuwgraytutsa --schema public > database.types.ts"
   },
   "dependencies": {
     "@flaticon/flaticon-uicons": "^3.0.0",

@@ -1,7 +1,7 @@
 import UtilityAnalysisInteraction from '../components/UtilityAnalysisInteraction';
 import { createClient } from '@/utils/supabase/server';
 
-interface GymiProvider {
+interface GymiProviders {
   ID: number;
   Name: string;
   "Preis Langzeit Kurs"?: number;
@@ -17,7 +17,7 @@ const UtilityAnalysis = async () => {
   // GymiProviders-Daten abrufen mit korrekt formatierten Spaltennamen
   const { data: GymiProviders, error: errorProviders } = await supabase
     .from("GymiProviders")
-    .select(`ID, Name, "Preis Langzeit Kurs", "Preis Intensiver Kurs", "E-Learning", Aufsatzkorrektur, Einzelkurse`) as { data: GymiProvider[]; error: any };
+    .select(`ID, Name, "Preis Langzeit Kurs", "Preis Intensiver Kurs", "E-Learning", Aufsatzkorrektur, Einzelkurse`) as { data: GymiProviders[]; error: any };
 
   if (errorProviders) {
     console.error("Error fetching Gymi providers data:", errorProviders);
@@ -33,7 +33,7 @@ const UtilityAnalysis = async () => {
   }
 
   // Daten-Transformation für GymiProviders
-  const transformedGymiProviders = GymiProviders?.map((provider: GymiProvider) => ({
+  const transformedGymiProviders = GymiProviders?.map((provider: GymiProviders) => ({
     id: provider.ID,
     name: provider.Name || 'Name nicht verfügbar',
     pricePerformance: provider["Preis Langzeit Kurs"] || provider["Preis Intensiver Kurs"] || 'Nicht verfügbar',

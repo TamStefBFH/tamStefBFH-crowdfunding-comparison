@@ -28,10 +28,15 @@ const UtilityAnalysis = async () => {
   return (
     <div className="container mx-auto px-4 sm:px-8">
       <div className="py-8">
-        <UtilityAnalysisInteraction 
+        {GymiProviders && CourseDetails ? <UtilityAnalysisInteraction 
           GymiProviders={GymiProviders || []} 
           CourseDetails={CourseDetails || []} 
-        />
+        /> : <div>Could not load data</div>}
+        
+        {/* <UtilityAnalysisInteraction 
+          GymiProviders={GymiProviders || []} 
+          CourseDetails={CourseDetails || []} 
+        /> */}
       </div>
     </div>
   );
