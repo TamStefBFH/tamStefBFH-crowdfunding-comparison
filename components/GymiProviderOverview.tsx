@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Database } from "@/database.types";
 
 type GymiProviders = Database['public']['Tables']['GymiProviders']['Row']
+type CourseDetails = Database['public']['Tables']['CourseDetails']['Row']
 
 interface GymiProviderOverviewProps {
     gymiProviders: GymiProviders[],
