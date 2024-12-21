@@ -1,13 +1,13 @@
 'use client';
 import { useState } from 'react';
-import { calculateUtilityAnalysis } from '../utils/utilityAnalysis/calculation';
-import { checkForm } from '../utils/utilityAnalysis/checkForm';
-import { sortList } from '../utils/utilityAnalysis/sortList';
+import { calculatePricePerformance, calculateQuality, calculateFlexibility, calculateAdditionalServices, calculateLocation } from '../utils/utilityAnalysis/calculation'; // Importieren der Berechnungsfunktionen
+import { checkForm } from '../utils/utilityAnalysis/checkForm'; // Importieren der Formularvalidierung
+import { sortList } from '../utils/utilityAnalysis/sortList'; // Importieren der Sortierfunktion
 import GymiProviderOverview from './GymiProviderOverview';
 
 const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: { GymiProviders: any, CourseDetails: any }) => {
-  const [ratedGymiProviders, setRatedGymiProviders] = useState<any[]>([]);
-  const [params, setParams] = useState([
+  const [ratedGymiProviders, setRatedGymiProviders] = useState<any[]>([]); // Zustand für die berechneten Anbieter
+  const [params, setParams] = useState([ // Zustand für die Eingabewerte der Kriterien und Gewichtungen
     { id: 1, weight: '', criteria: '' },
     { id: 2, weight: '', criteria: '' },
     { id: 3, weight: '', criteria: '' },
@@ -15,53 +15,63 @@ const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: { GymiProv
     { id: 5, weight: '', criteria: '' },
   ]);
 
+  // Funktion, um die Gewichtung zu ändern
   const handleTitleChange = (index: any, newWeight: any) => {
     const updatedParams = [...params];
     updatedParams[index].weight = newWeight;
     setParams(updatedParams);
   };
 
+  // Funktion, um das Kriterium zu ändern
   const handleContentChange = (index: any, newCriteria: any) => {
     const updatedParams = [...params];
     updatedParams[index].criteria = newCriteria;
     setParams(updatedParams);
   };
 
+  // Funktion, die aufgerufen wird, wenn der Benutzer auf "Ausrechnen" klickt
   const saveChanges = () => {
-    const correctForm = checkForm(params);
+    const correctForm = checkForm(params); // Überprüfen, ob die Eingaben korrekt sind
     if (correctForm === true) {
       if (GymiProviders && GymiProviders.length > 0) {
-        // Map GymiProviders and CourseDetails data using the matching ID
+        // Mapping der GymiProvider-Daten und der CourseDetails-Daten
         const mappedProviders = GymiProviders.map((provider: any) => {
-          // Find the corresponding CourseDetail entry based on ID
-          const courseDetail = CourseDetails.find((detail: any) => detail.ID === provider.ID) || {};
+          const courseDetail = CourseDetails.find((detail: any) => detail.ID === provider.ID) || {}; // Finden der zugehörigen CourseDetails-Daten
+
+          // Berechnungen für die verschiedenen Kriterien
+          const pricePerformance = calculatePricePerformance(provider, params.find(p => p.criteria === 'price-performance')?.weight || 0);
+          const quality = calculateQuality(courseDetail, params.find(p => p.criteria === 'quality')?.weight || 0);
+          const flexibility = calculateFlexibility(courseDetail, params.find(p => p.criteria === 'flexibility')?.weight || 0);
+          const additionalServices = calculateAdditionalServices(provider, courseDetail, params.find(p => p.criteria === 'additional-services')?.weight || 0);
+          const location = calculateLocation(courseDetail, params.find(p => p.criteria === 'location')?.weight || 0);
 
           return {
-            pricePerformance: provider["Preis Langzeit Kurs"] || provider["Preis Intensiver Kurs"],
-            quality: courseDetail.Qualitaetsbewertung || 'Nicht verfügbar',
-            flexibility: courseDetail["Kursart (Intensiv- oder Langzeitkurs)"] || 'Nicht verfügbar',
-            additionalServices: provider["E-Learning"] || provider.Aufsatzkorrektur || provider.Einzelkurse ? 'Ja' : 'Nein',
-            location: courseDetail.Standort || 'Standort nicht verfügbar',
+            provider: provider.Name,
+            pricePerformance,
+            quality,
+            flexibility,
+            additionalServices,
+            location,
+            totalScore: pricePerformance + quality + flexibility + additionalServices + location, // Gesamtbewertung berechnen
           };
         });
 
-        // Calculates the utility analysis and sorts the list
-        const ratedGymiProvidersList = sortList(calculateUtilityAnalysis(params, mappedProviders));
-        setRatedGymiProviders(ratedGymiProvidersList);
+        // Sortieren der berechneten Anbieter nach ihrem Gesamt-Score
+        const ratedGymiProvidersList = sortList(mappedProviders);
+        setRatedGymiProviders(ratedGymiProvidersList); // Speichern der berechneten Anbieter
       } else {
         console.error("No data available for Gymi providers");
         alert("Keine Daten für Gymi-Anbieter verfügbar.");
       }
     } else {
-      // Alerts the user with the specific error message
-      alert(correctForm);
+      alert(correctForm); // Fehlermeldung wenn das Formular nicht korrekt angezeigt wird
     }
   };
 
+  // Funktion, um die Liste zurückzusetzen und neu zu berechnen
   const deleteList = () => {
-    // Reset the list and the params
-    setRatedGymiProviders([]);
-    setParams([
+    setRatedGymiProviders([]); // Zurücksetzen der berechneten Anbieter
+    setParams([ // Zurücksetzen der Eingabewerte für Kriterien und Gewichtungen
       { id: 1, weight: '', criteria: '' },
       { id: 2, weight: '', criteria: '' },
       { id: 3, weight: '', criteria: '' },
@@ -82,8 +92,7 @@ const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: { GymiProv
           <p>
             Bitte wählen Sie Kriterien, die für die Nutzwertanalyse verwendet
             werden sollen aus. <br />
-            Die Kriterien müssen einzeln gewichtet werden. Dabei ist zu
-            beachten, dass die Summe am Ende 100% ergeben muss
+            Die Kriterien müssen einzeln gewichtet werden. Die Endsumme muss 100% ergeben.
           </p>
           <form action="">
             <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -95,7 +104,7 @@ const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: { GymiProv
                         Kriterien
                       </th>
                       <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Gewichtung - total max 100%
+                        Gewichtung - Total max. 100%
                       </th>
                     </tr>
                   </thead>
@@ -150,7 +159,7 @@ const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: { GymiProv
           >
             Neu ausrechnen
           </button>
-          <GymiProviderOverview gymiProviders={ratedGymiProviders} score={0}></GymiProviderOverview>
+          <GymiProviderOverview gymiProviders={ratedGymiProviders} score={0} />
         </>
       )}
     </div>
