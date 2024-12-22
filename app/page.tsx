@@ -1,6 +1,7 @@
 import UtilityAnalysisInteraction from '../components/UtilityAnalysisInteraction';
 import { createClient } from '@/utils/supabase/server';
 
+// Interfaces für GymiProviders
 interface GymiProviders {
   ID: number;
   Name: string;
@@ -11,10 +12,25 @@ interface GymiProviders {
   Einzelkurse?: boolean;
 }
 
+// Interface für CourseDetails
+interface CourseDetails {
+  ID: number;
+  "Preis pro Woche Langzeitkurs"?: number;
+  "Dauer der Kurse in Wochen Langzeitkurs"?: number;
+  "Eigene Lernunterlagen"?: boolean;
+  "Kursart (Intensiv- oder Langzeitkurs)"?: string;
+  Unterrichttag?: string;
+  Standort?: string;
+  Pruefungsarchiv?: boolean;
+  Beratungsgespraech?: boolean;
+  Qualitaetsbewertung?: number;
+  Nachholmoeglichkeiten?: boolean;
+}
+
 const UtilityAnalysis = async () => {
   const supabase = await createClient();
 
-  // GymiProviders-Daten abrufen mit korrekt formatierten Spaltennamen
+  // GymiProviders-Daten abrufen
   const { data: GymiProviders, error: errorProviders } = await supabase
     .from("GymiProviders")
     .select(`ID, Name, "Preis Langzeit Kurs", "Preis Intensiver Kurs", "E-Learning", Aufsatzkorrektur, Einzelkurse`) as { data: GymiProviders[]; error: any };
@@ -23,10 +39,10 @@ const UtilityAnalysis = async () => {
     console.error("Error fetching Gymi providers data:", errorProviders);
   }
 
-  // CourseDetails-Daten abrufen mit korrekt formatierten Spaltennamen
+  // CourseDetails-Daten abrufen
   const { data: CourseDetails, error: errorCourseDetails } = await supabase
     .from("CourseDetails")
-    .select(`ID, "Preis pro Woche Langzeitkurs", "Dauer der Kurse in Wochen Langzeitkurs", "Eigene Lernunterlagen", "Kursart (Intensiv- oder Langzeitkurs)", Unterrichttag, Standort, Pruefungsarchiv, Beratungsgespraech, Qualitaetsbewertung, Nachholmoeglichkeiten`);
+    .select(`ID, "Preis pro Woche Langzeitkurs", "Dauer der Kurse in Wochen Langzeitkurs", "Eigene Lernunterlagen", "Kursart (Intensiv- oder Langzeitkurs)", Unterrichttag, Standort, Pruefungsarchiv, Beratungsgespraech, Qualitaetsbewertung, Nachholmoeglichkeiten`) as { data: CourseDetails[]; error: any };
 
   if (errorCourseDetails) {
     console.error("Error fetching Course details data:", errorCourseDetails);
