@@ -1,31 +1,36 @@
 import UtilityAnalysisInteraction from '../components/UtilityAnalysisInteraction';
 import { createClient } from '@/utils/supabase/server';
+import {Database} from "@/database.types";
 
 // Interfaces für GymiProviders
-interface GymiProviders {
-  ID: number;
-  Name: string;
-  "Preis Langzeit Kurs"?: number;
-  "Preis Intensiver Kurs"?: number;
-  "E-Learning"?: boolean;
-  Aufsatzkorrektur?: boolean;
-  Einzelkurse?: boolean;
-}
+// interface GymiProviders {
+//   ID: number;
+//   Name: string;
+//   "Preis Langzeit Kurs"?: number;
+//   "Preis Intensiver Kurs"?: number;
+//   "E-Learning"?: boolean;
+//   Aufsatzkorrektur?: boolean;
+//   Einzelkurse?: boolean;
+// }
 
 // Interface für CourseDetails
-interface CourseDetails {
-  ID: number;
-  "Preis pro Woche Langzeitkurs"?: number;
-  "Dauer der Kurse in Wochen Langzeitkurs"?: number;
-  "Eigene Lernunterlagen"?: boolean;
-  "Kursart (Intensiv- oder Langzeitkurs)"?: string;
-  Unterrichttag?: string;
-  Standort?: string;
-  Pruefungsarchiv?: boolean;
-  Beratungsgespraech?: boolean;
-  Qualitaetsbewertung?: number;
-  Nachholmoeglichkeiten?: boolean;
-}
+// interface CourseDetails {
+//   ID: number;
+//   "Preis pro Woche Langzeitkurs"?: number;
+//   "Dauer der Kurse in Wochen Langzeitkurs"?: number;
+//   "Eigene Lernunterlagen"?: boolean;
+//   "Kursart (Intensiv- oder Langzeitkurs)"?: string;
+//   Unterrichttag?: string;
+//   Standort?: string;
+//   Pruefungsarchiv?: boolean;
+//   Beratungsgespraech?: boolean;
+//   Qualitaetsbewertung?: number;
+//   Nachholmoeglichkeiten?: boolean;
+// }
+
+// Typen für GymiProviders und CourseDetails
+type GymiProviders = Database['public']['Tables']['GymiProviders']['Row'];
+type CourseDetails = Database['public']['Tables']['CourseDetails']['Row'];
 
 const UtilityAnalysis = async () => {
   const supabase = await createClient();

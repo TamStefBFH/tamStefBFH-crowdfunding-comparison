@@ -4,14 +4,14 @@ import { createClient } from '@/utils/supabase/client';
 
 const UtilityAnalysis = async () => {
   // Supabase Client erstellen
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Abfrage der GymiProviders-Tabelle
   const { data: GymiProviders, error: errorProviders } = await supabase.from("GymiProviders").select();
-  
+
   // Abfrage der CourseDetails-Tabelle
   const { data: CourseDetails, error: errorCourseDetails } = await supabase.from("CourseDetails").select();
-  
+
   // Logge die Fehler oder die Daten in der Konsole
   if (errorProviders) {
     console.error("Error fetching Gymi providers data:", errorProviders);
@@ -28,14 +28,14 @@ const UtilityAnalysis = async () => {
   return (
     <div className="container mx-auto px-4 sm:px-8">
       <div className="py-8">
-        {GymiProviders && CourseDetails ? <UtilityAnalysisInteraction 
-          GymiProviders={GymiProviders || []} 
-          CourseDetails={CourseDetails || []} 
-        /> : <div>Could not load data</div>}
-        
-        {/* <UtilityAnalysisInteraction 
-          GymiProviders={GymiProviders || []} 
-          CourseDetails={CourseDetails || []} 
+        {/*{GymiProviders && CourseDetails ? <UtilityAnalysisInteraction*/}
+        {/*  GymiProviders={GymiProviders || []}*/}
+        {/*  CourseDetails={CourseDetails || []}*/}
+        {/*/> : <div>Could not load data</div>}*/}
+
+        {/* <UtilityAnalysisInteraction
+          GymiProviders={GymiProviders || []}
+          CourseDetails={CourseDetails || []}
         /> */}
       </div>
     </div>
