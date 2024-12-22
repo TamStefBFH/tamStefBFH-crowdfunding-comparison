@@ -2,28 +2,47 @@
 import React, { useState } from "react";
 import Link from 'next/link';
 import { Database } from "@/database.types";
+import {TransformedGymiProviders} from "@/components/UtilityAnalysisInteraction";
 
 // Typen für GymiProviders und CourseDetails
-type GymiProviders = Database['public']['Tables']['GymiProviders']['Row'];
 type CourseDetails = Database['public']['Tables']['CourseDetails']['Row'];
 
+export interface RatedGymiProviders {
+    id: number;
+    provider: string;
+    pricePerformance: number;
+    quality: number;
+    flexibility: number;
+    additionalServices: number;
+    location: number;
+    totalScore: number;
+}
+
 interface GymiProviderOverviewProps {
-    gymiProviders: GymiProviders[];
+    gymiProviders: RatedGymiProviders[];
     courseDetails: CourseDetails[]; // Übergebene CourseDetails
     score: number;
 }
 
+interface SelectedProvider extends CourseDetails, RatedGymiProviders {}
+
 const GymiProviderOverview = ({ gymiProviders, courseDetails, score }: GymiProviderOverviewProps) => {
     const [showModal, setShowModal] = useState(false);
-    const [selectedProvider, setSelectedProvider] = useState<any>();
+    const [selectedProvider, setSelectedProvider] = useState<SelectedProvider>();
 
-    const toggleModal = (providerId: number) => {
+    const toggleModal = (providerId: number, state: boolean) => {
         if (gymiProviders && gymiProviders[providerId]) {
+            console.log(state);
             const selectedProvider = gymiProviders[providerId];
             // Finde das passende CourseDetail
-            const courseDetail = courseDetails.find((detail) => detail.ID === selectedProvider.ID);
-            setSelectedProvider({ ...selectedProvider, courseDetail });
-            setShowModal(!showModal);
+            const courseDetail = courseDetails.find((detail) => detail.ID === selectedProvider.id);
+            if (!courseDetail) {
+                console.log('failed to find corresponding course detail!')
+                return;
+            }
+
+            setSelectedProvider({ ...selectedProvider, ...courseDetail });
+            setShowModal(state);
         } else {
             console.error("Ungültiger Anbieter oder Index");
         }
@@ -36,12 +55,12 @@ const GymiProviderOverview = ({ gymiProviders, courseDetails, score }: GymiProvi
                 <div className="container my-12 mx-auto">
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
                         {gymiProviders && gymiProviders.map((provider, index: number) => {
-                            const courseDetail = courseDetails.find((detail) => detail.ID === provider.ID); // Verknüpfe CourseDetails
+                            const courseDetail = courseDetails.find((detail) => detail.ID === provider.id); // Verknüpfe CourseDetails
                             return (
                                 <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" key={index}>
                                     <article className="overflow-hidden rounded-lg shadow-lg">
                                         <header className="flex items-center justify-between leading-tight p-2 md:p-4">
-                                            <h1 className="text-lg">{provider.Name || 'Name nicht verfügbar'}</h1>
+                                            <h1 className="text-lg">{provider.provider || 'Name nicht verfügbar'}</h1>
                                             {score ? (
                                                 <p className="text-grey-darker text-sm">Score: {score}</p>
                                             ) : (
@@ -53,7 +72,7 @@ const GymiProviderOverview = ({ gymiProviders, courseDetails, score }: GymiProvi
                                             <button
                                                 className="bg-gray-700 text-white font-bold uppercase text-xs px-4 py-2 rounded shadow"
                                                 type="button"
-                                                onClick={() => toggleModal(index)}
+                                                onClick={() => toggleModal(index, true)}
                                             >
                                                 Mehr Informationen
                                             </button>
@@ -64,7 +83,7 @@ const GymiProviderOverview = ({ gymiProviders, courseDetails, score }: GymiProvi
                                         </footer>
                                     </article>
 
-                                    {showModal && selectedProvider && selectedProvider === gymiProviders[index] ? (
+                                    {showModal && selectedProvider ? (
                                         <div>
                                             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                                                 <div className="relative w-auto my-6 mx-auto max-w-md">
@@ -82,7 +101,7 @@ const GymiProviderOverview = ({ gymiProviders, courseDetails, score }: GymiProvi
                                                             <div className="shadow p-4 rounded-lg bg-white">
                                                                 <div className="mt-4 ml-2">
                                                                     <h2 className="font-medium text-base md:text-lg text-gray-800 line-clamp-1">
-                                                                        {selectedProvider.name || 'Name nicht verfügbar'}
+                                                                        {selectedProvider.provider || 'Name nicht verfügbar'}
                                                                     </h2>
                                                                     <p className="mt-2 text-sm text-gray-800">
                                                                         {selectedProvider.description || 'Beschreibung nicht verfügbar'}

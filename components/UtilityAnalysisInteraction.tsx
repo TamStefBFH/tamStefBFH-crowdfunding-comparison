@@ -1,12 +1,32 @@
 'use client';
-import { useState } from 'react';
-import { calculatePricePerformance, calculateQuality, calculateFlexibility, calculateAdditionalServices, calculateLocation } from '../utils/utilityAnalysis/calculation'; // Importieren der Berechnungsfunktionen
-import { checkForm } from '../utils/utilityAnalysis/checkForm'; // Importieren der Formularvalidierung
-import { sortList } from '../utils/utilityAnalysis/sortList'; // Importieren der Sortierfunktion
-import GymiProviderOverview from './GymiProviderOverview';
+import {useState} from 'react';
+import {
+  calculateAdditionalServices,
+  calculateFlexibility,
+  calculateLocation,
+  calculatePricePerformance,
+  calculateQuality
+} from '../utils/utilityAnalysis/calculation'; // Importieren der Berechnungsfunktionen
+import {checkForm} from '../utils/utilityAnalysis/checkForm'; // Importieren der Formularvalidierung
+import GymiProviderOverview, {RatedGymiProviders} from './GymiProviderOverview';
+import {Database} from "@/database.types";
 
-const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: { GymiProviders: any, CourseDetails: any }) => {
-  const [ratedGymiProviders, setRatedGymiProviders] = useState<any[]>([]); // Zustand für die berechneten Anbieter
+export interface  TransformedGymiProviders {
+  id: number;
+  name: string;
+  pricePerformance: string | number;
+  additionalServices: string;
+}
+
+type CourseDetailsType = Database['public']['Tables']['CourseDetails']['Row'];
+
+interface UtilityAnalysisInteractionProps {
+  GymiProviders: TransformedGymiProviders[];
+  CourseDetails: CourseDetailsType[]
+}
+
+const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: UtilityAnalysisInteractionProps) => {
+  const [ratedGymiProviders, setRatedGymiProviders] = useState<RatedGymiProviders[]>([]); // Zustand für die berechneten Anbieter
   const [params, setParams] = useState([ // Zustand für die Eingabewerte der Kriterien und Gewichtungen
     { id: 1, weight: '', criteria: '' },
     { id: 2, weight: '', criteria: '' },
@@ -35,8 +55,8 @@ const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: { GymiProv
     if (correctForm === true) {
       if (GymiProviders && GymiProviders.length > 0) {
         // Mapping der GymiProvider-Daten und der CourseDetails-Daten
-        const mappedProviders = GymiProviders.map((provider: any) => {
-          const courseDetail = CourseDetails.find((detail: any) => detail.ID === provider.ID) || {}; // Finden der zugehörigen CourseDetails-Daten
+        const mappedProviders: RatedGymiProviders[] = GymiProviders.map((provider) => {
+          const courseDetail = CourseDetails.find((detail) => detail.ID === provider.id) || {}; // Finden der zugehörigen CourseDetails-Daten
 
           // Berechnungen für die verschiedenen Kriterien
           const pricePerformance = calculatePricePerformance(provider, params.find(p => p.criteria === 'price-performance')?.weight || 0);
@@ -46,7 +66,8 @@ const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: { GymiProv
           const location = calculateLocation(courseDetail, params.find(p => p.criteria === 'location')?.weight || 0);
 
           return {
-            provider: provider.Name,
+            id: provider.id,
+            provider: provider.name,
             pricePerformance,
             quality,
             flexibility,
@@ -57,7 +78,9 @@ const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: { GymiProv
         });
 
         // Sortieren der berechneten Anbieter nach ihrem Gesamt-Score
-        const ratedGymiProvidersList = sortList(mappedProviders);
+        const ratedGymiProvidersList = mappedProviders.sort((a, b) => {
+          return b.totalScore - a.totalScore;
+        });
         setRatedGymiProviders(ratedGymiProvidersList); // Speichern der berechneten Anbieter
       } else {
         console.error("No data available for Gymi providers");
@@ -159,7 +182,7 @@ const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: { GymiProv
           >
             Neu ausrechnen
           </button>
-          <GymiProviderOverview gymiProviders={ratedGymiProviders} score={0} />
+          <GymiProviderOverview gymiProviders={ratedGymiProviders} courseDetails={CourseDetails} score={0} />
         </>
       )}
     </div>
