@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from 'next/link';
 import { Database } from "@/database.types";
-import {TransformedGymiProviders} from "@/components/UtilityAnalysisInteraction";
+import { TransformedGymiProviders } from "@/components/UtilityAnalysisInteraction";
 
 // Typen für GymiProviders und CourseDetails
 type CourseDetails = Database['public']['Tables']['CourseDetails']['Row'];
@@ -21,23 +21,21 @@ export interface RatedGymiProviders {
 interface GymiProviderOverviewProps {
     gymiProviders: RatedGymiProviders[];
     courseDetails: CourseDetails[]; // Übergebene CourseDetails
-    score: number;
 }
 
 interface SelectedProvider extends CourseDetails, RatedGymiProviders {}
 
-const GymiProviderOverview = ({ gymiProviders, courseDetails, score }: GymiProviderOverviewProps) => {
+const GymiProviderOverview = ({ gymiProviders, courseDetails }: GymiProviderOverviewProps) => {
     const [showModal, setShowModal] = useState(false);
     const [selectedProvider, setSelectedProvider] = useState<SelectedProvider>();
 
     const toggleModal = (providerId: number, state: boolean) => {
         if (gymiProviders && gymiProviders[providerId]) {
-            console.log(state);
             const selectedProvider = gymiProviders[providerId];
-            // Finde das passende CourseDetail
             const courseDetail = courseDetails.find((detail) => detail.ID === selectedProvider.id);
+
             if (!courseDetail) {
-                console.log('failed to find corresponding course detail!')
+                console.log('Failed to find corresponding course detail!');
                 return;
             }
 
@@ -55,17 +53,13 @@ const GymiProviderOverview = ({ gymiProviders, courseDetails, score }: GymiProvi
                 <div className="container my-12 mx-auto">
                     <div className="flex flex-wrap -mx-1 lg:-mx-4">
                         {gymiProviders && gymiProviders.map((provider, index: number) => {
-                            const courseDetail = courseDetails.find((detail) => detail.ID === provider.id); // Verknüpfe CourseDetails
+                            const courseDetail = courseDetails.find((detail) => detail.ID === provider.id);
                             return (
                                 <div className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3" key={index}>
                                     <article className="overflow-hidden rounded-lg shadow-lg">
                                         <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                                             <h1 className="text-lg">{provider.provider || 'Name nicht verfügbar'}</h1>
-                                            {score ? (
-                                                <p className="text-grey-darker text-sm">Score: {score}</p>
-                                            ) : (
-                                                <p className="text-grey-darker text-sm">Score: Nicht verfügbar</p>
-                                            )}
+                                            <p className="text-grey-darker text-sm">Score: {provider.totalScore}</p>
                                         </header>
 
                                         <footer className="flex items-center justify-between leading-none p-2 md:p-4">
@@ -83,6 +77,7 @@ const GymiProviderOverview = ({ gymiProviders, courseDetails, score }: GymiProvi
                                         </footer>
                                     </article>
 
+                                    {/* MODAL */}
                                     {showModal && selectedProvider ? (
                                         <div>
                                             <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -99,70 +94,22 @@ const GymiProviderOverview = ({ gymiProviders, courseDetails, score }: GymiProvi
                                                         </div>
                                                         <div className="relative mx-auto w-full">
                                                             <div className="shadow p-4 rounded-lg bg-white">
-                                                                <div className="mt-4 ml-2">
-                                                                    <h2 className="font-medium text-base md:text-lg text-gray-800 line-clamp-1">
-                                                                        {selectedProvider.provider || 'Name nicht verfügbar'}
-                                                                    </h2>
-                                                                    {selectedProvider.description && (
-                                                                        <p className="mt-2 text-sm text-gray-800">
-                                                                            {selectedProvider.description}
-                                                                    </p>
-                                                                    )}
-                                                                </div>
-                                                                <div className="grid grid-cols-2 grid-rows-2 gap-4 mt-8 ml-2">
-                                                                    <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                                                                        <i className="fi fi-sr-signal-stream mr-2 mb-0 flex"></i>
-                                                                        <span className="mt-2 xl:mt-0">
-                                                                            Preis-Leistungs-Verhältnis: {selectedProvider.pricePerformance || 'Nicht verfügbar'}
-                                                                        </span>
-                                                                    </p>
-                                                                    <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                                                                        <i className="fi fi-bs-heart mr-2 mb-0 flex"></i>
-                                                                        <span className="mt-2 xl:mt-0">
-                                                                            Qualität des Unterrichts: {selectedProvider.quality || 'Nicht verfügbar'}
-                                                                        </span>
-                                                                    </p>
-                                                                    <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                                                                        <i className="fi fi-rr-coins mr-2 mb-0 flex"></i>
-                                                                        <span className="mt-2 xl:mt-0">
-                                                                            Flexibilität der Kursgestaltung: {selectedProvider.flexibility || 'Nicht verfügbar'}
-                                                                        </span>
-                                                                    </p>
-                                                                    <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                                                                        <i className="fi fi-rr-marker mr-2 mb-0"></i>
-                                                                        <span className="mt-2 xl:mt-0">
-                                                                            Standort: {selectedProvider.location || 'Standort nicht verfügbar'}
-                                                                        </span>
-                                                                    </p>
-                                                                    <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                                                                        <i className="fi fi-rr-book-section mr-2 mb-0 flex"></i>
-                                                                        <span className="mt-2 xl:mt-0">
-                                                                            Zusatzleistungen: {selectedProvider.additionalServices || 'Nicht verfügbar'}
-                                                                        </span>
-                                                                    </p>
-                                                                </div>
-                                                                <div className="grid grid-cols-2 mt-8">
-                                                                    <div className="flex items-center">
-                                                                        {selectedProvider.url ? (
-                                                                            <Link href={selectedProvider.url} target='_blank'>
-                                                                                <p className="ml-2 text-gray-800 line-clamp-1">
-                                                                                    {selectedProvider.url}
-                                                                                </p>
-                                                                            </Link>
-                                                                        ) : (
-                                                                            <p className="ml-2 text-gray-800 line-clamp-1">Keine URL verfügbar</p>
-                                                                        )}
-                                                                    </div>
+                                                                <h2 className="font-medium text-lg">{selectedProvider.provider || 'Name nicht verfügbar'}</h2>
+                                                                <div className="grid grid-cols-2 gap-4 mt-4">
+                                                                    <p><i className="fi fi-rr-coins mr-2"></i>Preis-Leistungs-Verhältnis: {selectedProvider.pricePerformance || 'Nicht verfügbar'}</p>
+                                                                    <p><i className="fi fi-bs-heart mr-2"></i>Qualität des Unterrichts: {selectedProvider.quality || 'Nicht verfügbar'}</p>
+                                                                    <p><i className="fi fi-rr-calendar mr-2"></i>Flexibilität: {selectedProvider.flexibility || 'Nicht verfügbar'}</p>
+                                                                    <p><i className="fi fi-rr-gift mr-2"></i>Zusatzleistungen: {selectedProvider.additionalServices || 'Nicht verfügbar'}</p>
+                                                                    <p><i className="fi fi-rr-marker mr-2"></i>Standort: {selectedProvider.location || 'Nicht verfügbar'}</p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                                                             <button
-                                                                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                                                type="button"
+                                                                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none"
                                                                 onClick={() => setShowModal(false)}
                                                             >
-                                                                Schliessen
+                                                                SCHLIESSEN
                                                             </button>
                                                         </div>
                                                     </div>
