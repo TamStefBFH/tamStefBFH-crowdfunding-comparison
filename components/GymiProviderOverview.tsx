@@ -103,9 +103,11 @@ const GymiProviderOverview = ({ gymiProviders, courseDetails, score }: GymiProvi
                                                                     <h2 className="font-medium text-base md:text-lg text-gray-800 line-clamp-1">
                                                                         {selectedProvider.provider || 'Name nicht verfügbar'}
                                                                     </h2>
-                                                                    <p className="mt-2 text-sm text-gray-800">
-                                                                        {selectedProvider.description || 'Beschreibung nicht verfügbar'}
+                                                                    {selectedProvider.description && (
+                                                                        <p className="mt-2 text-sm text-gray-800">
+                                                                            {selectedProvider.description}
                                                                     </p>
+                                                                    )}
                                                                 </div>
                                                                 <div className="grid grid-cols-2 grid-rows-2 gap-4 mt-8 ml-2">
                                                                     <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">

@@ -31,7 +31,7 @@ export const calculatePricePerformance = (provider: any, weight: number) => {
   }
 
   // Normalisierung und Gewichtung
-  return (scorePricePerformance / 3) * weight;
+  return Math.round((scorePricePerformance / 3) * weight);
 };
 
 // 2. Qualität des Unterrichts
@@ -48,7 +48,7 @@ export const calculateQuality = (courseDetail: any, weight: number) => {
   }
 
   // Normalisierung und Gewichtung
-  return (scoreQuality / 3) * weight;
+  return Math.round((scoreQuality / 3) * weight);
 };
 
 // 3. Flexibilität der Kursgestaltung
@@ -86,7 +86,7 @@ export const calculateFlexibility = (courseDetail: any, weight: number) => {
       scoreFlexibility = 1;
   }
 
-  return (scoreFlexibility / 3) * weight;
+  return Math.round((scoreFlexibility / 3) * weight);
 };
 
 // 4. Zusatzleistungen berechnen
@@ -110,7 +110,7 @@ export const calculateAdditionalServices = (provider: any, courseDetail: any, we
       scoreAdditionalServices = 1;
   }
 
-  return (scoreAdditionalServices / 3) * weight;
+  return Math.round((scoreAdditionalServices / 3) * weight);
 };
 
 // 5. Berechnet Standort 
@@ -132,5 +132,5 @@ export const calculateLocation = (courseDetail: any, weight: number) => {
       scoreLocation = 1;
   }
 
-  return (scoreLocation / 3) * weight;
+  return Math.round((scoreLocation / 3) * weight);
 };

@@ -73,7 +73,14 @@ const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: UtilityAna
             flexibility,
             additionalServices,
             location,
-            totalScore: pricePerformance + quality + flexibility + additionalServices + location, // Gesamtbewertung berechnen
+
+            totalScore: 
+              (pricePerformance * (params.find(p => p.criteria === 'price-performance')?.weight || 0) / 100) +
+              (quality * (params.find(p => p.criteria === 'quality')?.weight || 0) / 100) +
+              (flexibility * (params.find(p => p.criteria === 'flexibility')?.weight || 0) / 100) +
+              (additionalServices * (params.find(p => p.criteria === 'additional-services')?.weight || 0) / 100) +
+              (location * (params.find(p => p.criteria === 'location')?.weight || 0) / 100)
+ // Gesamtbewertung berechnen
           };
         });
 
