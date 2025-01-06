@@ -159,7 +159,7 @@ function scrapeWebsite() {
                     _c.sent();
                     console.log("Preis f\u00FCr ".concat(entry.type, "-Kurs aktualisiert."));
                     // Aktualisiere CourseDetails
-                    console.log('🛠️ Aktualisiere CourseDetails...');
+                    console.log('Aktualisiere CourseDetails...');
                     return [4 /*yield*/, supabase
                             .from('CourseDetails')
                             .update({
