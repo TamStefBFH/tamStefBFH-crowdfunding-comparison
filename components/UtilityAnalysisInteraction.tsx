@@ -16,6 +16,7 @@ export interface TransformedGymiProviders {
   name: string;
   pricePerformance: string | number;
   additionalServices: string;
+  URL?: string[] | null; // URL hinzugefügt
 }
 
 type CourseDetailsType = Database['public']['Tables']['CourseDetails']['Row'];
@@ -73,7 +74,8 @@ const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: UtilityAna
             flexibility,
             additionalServices,
             location,
-            totalScore
+            totalScore,
+            URL: provider.URL?.length ? provider.URL : [] // URLs sicher übertragen
           };
         });
 
@@ -170,7 +172,9 @@ const UtilityAnalysisInteraction = ({ GymiProviders, CourseDetails }: UtilityAna
         </div>
       ) : (
         <>
-          <button onClick={deleteList}>Neu ausrechnen</button>
+          <button onClick={deleteList} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+            Neu ausrechnen
+          </button>
           <GymiProviderOverview gymiProviders={ratedGymiProviders} courseDetails={CourseDetails} />
         </>
       )}

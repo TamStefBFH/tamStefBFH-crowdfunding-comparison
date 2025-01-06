@@ -1,5 +1,5 @@
 import UtilityAnalysisInteraction from '../components/UtilityAnalysisInteraction';
-import { createClient } from '@/utils/supabase/server';
+import { createServerSupabaseClient } from '@/utils/supabase/server';
 import {Database} from "@/database.types";
 
 // Interfaces für GymiProviders
@@ -33,7 +33,7 @@ type GymiProviders = Database['public']['Tables']['GymiProviders']['Row'];
 type CourseDetails = Database['public']['Tables']['CourseDetails']['Row'];
 
 const UtilityAnalysis = async () => {
-  const supabase = await createClient();
+  const supabase = await createServerSupabaseClient();
 
   // GymiProviders-Daten abrufen
   const { data: GymiProviders, error: errorProviders } = await supabase

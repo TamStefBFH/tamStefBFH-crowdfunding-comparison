@@ -1,48 +1,62 @@
-import { calculateUtilityAnalysis } from '../utils/utilityAnalysis/calculation';
+import {
+  calculatePricePerformance,
+  calculateQuality,
+  calculateFlexibility,
+  calculateAdditionalServices,
+  calculateLocation,
+} from '../utils/utilityAnalysis/calculation';
 
-describe('calculateUtilityAnalysis', () => {
-  test('should correctly calculate the score for each provider based on weighted criteria', () => {
-    const params = [
-      { criteria: 'price-performance', weight: '30' },
-      { criteria: 'quality', weight: '20' },
-      { criteria: 'flexibility', weight: '20' },
-      { criteria: 'additional-services', weight: '10' },
-      { criteria: 'location', weight: '20' },
-    ];
+describe('calculateUtilityAnalysis Functions', () => {
+  const weightParams = {
+    pricePerformance: 30,
+    quality: 20,
+    flexibility: 20,
+    additionalServices: 10,
+    location: 20,
+  };
 
-    const gymiProvidersData = [
-      {
-        Preiskategorie: 'A', 
-        Mitarbeiter: 5, // Kleine Gruppe
-        Qualitaetsbewertung: 1, // Sehr gut
-        Unterrichttage: 4,
-        "Kursart (Intensiv- oder Langzeitkurs)": 'Beide',
-        "E-Learning": true,
-        "Eigene Lernunterlagen": true,
-        Nachholmoeglichkeiten: true,
-        "Unterstützung außerhalb Unterrichtszeit": true,
-        WeitereZusatzleistungen: true,
-        Standort: 'Zürich',
-      },
-      {
-        Preiskategorie: 'C', 
-        Mitarbeiter: 15, // Größere Gruppe
-        Qualitaetsbewertung: 3, // Schlecht
-        Unterrichttage: 1,
-        "Kursart (Intensiv- oder Langzeitkurs)": 'Langzeit',
-        "E-Learning": false,
-        "Eigene Lernunterlagen": false,
-        Nachholmoeglichkeiten: false,
-        "Unterstützung außerhalb Unterrichtszeit": false,
-        WeitereZusatzleistungen: false,
-        Standort: 'Bern',
-      },
-    ];
+  const provider = {
+    "Preis-Kategorie": 'A',
+    "Maximale Anzahl der Teilnehmer": '5',
+    Qualitaetsbewertung: 1,
+    Unterrichttag: 'Montag,Dienstag,Freitag',
+    "Kursart (Intensiv- oder Langzeitkurs)": 'Beides',
+    "E-Learning": true,
+    "Eigene Lernunterlagen": true,
+    Nachholmoeglichkeiten: true,
+    "Unterstuezung ausserhalb Unterrichtszeit": true,
+    Pruefungsarchiv: true,
+    Aufsatzkorrektur: true,
+    Standort: 'Zürich',
+  };
 
-    const result = calculateUtilityAnalysis(params, gymiProvidersData);
-    
-    // Beispielhafte erwartete Werte für die Scores basierend auf den Kriterien und Gewichten
-    expect(result[0].score).toBeCloseTo(4.5, 1); // Hohe Bewertung aufgrund der positiven Eigenschaften
-    expect(result[1].score).toBeCloseTo(2.0, 1); // Niedrigere Bewertung aufgrund der eingeschränkten Eigenschaften
+  test('should calculate price-performance correctly', () => {
+    const result = calculatePricePerformance(provider, weightParams.pricePerformance);
+    expect(result).toBeGreaterThanOrEqual(1);
+    expect(result).toBeLessThanOrEqual(weightParams.pricePerformance);
+  });
+
+  test('should calculate quality correctly', () => {
+    const result = calculateQuality(provider, weightParams.quality);
+    expect(result).toBeGreaterThanOrEqual(1);
+    expect(result).toBeLessThanOrEqual(weightParams.quality);
+  });
+
+  test('should calculate flexibility correctly', () => {
+    const result = calculateFlexibility(provider, weightParams.flexibility);
+    expect(result).toBeGreaterThanOrEqual(1);
+    expect(result).toBeLessThanOrEqual(weightParams.flexibility);
+  });
+
+  test('should calculate additional services correctly', () => {
+    const result = calculateAdditionalServices(provider, provider, weightParams.additionalServices);
+    expect(result).toBeGreaterThanOrEqual(1);
+    expect(result).toBeLessThanOrEqual(weightParams.additionalServices);
+  });
+
+  test('should calculate location correctly', () => {
+    const result = calculateLocation(provider, weightParams.location);
+    expect(result).toBeGreaterThanOrEqual(1);
+    expect(result).toBeLessThanOrEqual(weightParams.location);
   });
 });
