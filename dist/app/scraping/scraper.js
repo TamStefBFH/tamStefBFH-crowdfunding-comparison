@@ -75,7 +75,7 @@ function scrapeWebsite() {
                     _c.label = 1;
                 case 1:
                     _c.trys.push([1, 21, 22, 25]);
-                    console.log('🚀 Starte den Scraping-Prozess...');
+                    console.log('Starte den Scraping-Prozess...');
                     return [4 /*yield*/, puppeteer_1.default.launch({ headless: true })];
                 case 2:
                     browser = _c.sent();
@@ -84,13 +84,13 @@ function scrapeWebsite() {
                 case 3:
                     if (!(_i < providers_1.length)) return [3 /*break*/, 20];
                     provider = providers_1[_i];
-                    console.log("\uD83D\uDD04 Scraping f\u00FCr Anbieter: ".concat(provider.name));
+                    console.log("Scraping f\u00FCr Anbieter: ".concat(provider.name));
                     _a = 0, _b = provider.urls;
                     _c.label = 4;
                 case 4:
                     if (!(_a < _b.length)) return [3 /*break*/, 19];
                     entry = _b[_a];
-                    console.log("\uD83C\uDF10 Besuche URL: ".concat(entry.url));
+                    console.log("Besuche URL: ".concat(entry.url));
                     page = null;
                     _c.label = 5;
                 case 5:
@@ -111,7 +111,7 @@ function scrapeWebsite() {
                     standort = 'Unbekannt';
                     if (standortText) {
                         standort = standortText.replace('Kursort:', '').trim();
-                        console.log("\uD83D\uDCCD Standort gefunden: ".concat(standort));
+                        console.log("Standort gefunden: ".concat(standort));
                     }
                     return [4 /*yield*/, page.$$eval('li', function (elements) {
                             return elements
@@ -124,7 +124,7 @@ function scrapeWebsite() {
                     if (teilnehmerText) {
                         match = teilnehmerText.match(/(\d+)\s*bis\s*max\.\s*(\d+)\s*Personen/);
                         maximaleTeilnehmer = match ? parseInt(match[2], 10) : null;
-                        console.log("\uD83D\uDC65 Maximale Teilnehmerzahl gefunden: ".concat(maximaleTeilnehmer));
+                        console.log("Maximale Teilnehmerzahl gefunden: ".concat(maximaleTeilnehmer));
                     }
                     return [4 /*yield*/, page.$$eval('li', function (elements) {
                             return elements
@@ -137,7 +137,7 @@ function scrapeWebsite() {
                     if (preisText) {
                         match = preisText.match(/(\d{1,5})\s*CHF/);
                         preis = match ? parseInt(match[1], 10) : null;
-                        console.log("\uD83D\uDCB0 Preis gefunden: ".concat(preis, " CHF"));
+                        console.log("Preis gefunden: ".concat(preis, " CHF"));
                     }
                     return [4 /*yield*/, supabase
                             .from('GymiProviders')
@@ -147,18 +147,18 @@ function scrapeWebsite() {
                 case 11:
                     existingGymiProvider = (_c.sent()).data;
                     if (!existingGymiProvider) {
-                        console.warn("\u26A0\uFE0F Kein GymiProvider gefunden f\u00FCr Anbieter: ".concat(provider.name));
+                        console.warn("Kein GymiProvider gefunden f\u00FCr Anbieter: ".concat(provider.name));
                         return [3 /*break*/, 18];
                     }
-                    console.log('🛠️ Aktualisiere GymiProviders...');
+                    console.log('Aktualisiere GymiProviders...');
                     return [4 /*yield*/, supabase
                             .from('GymiProviders')
                             .update(__assign(__assign({ "Maximale Anzahl der Teilnehmer": maximaleTeilnehmer }, (entry.type === "Intensiv" && { "Preis Intensiver Kurs": preis })), (entry.type === "Langzeit" && { "Preis Langzeit Kurs": preis })))
                             .eq('ID', provider.id)];
                 case 12:
                     _c.sent();
-                    console.log("\u2705 Preis f\u00FCr ".concat(entry.type, "-Kurs aktualisiert."));
-                    // ✅ Aktualisiere CourseDetails
+                    console.log("Preis f\u00FCr ".concat(entry.type, "-Kurs aktualisiert."));
+                    // Aktualisiere CourseDetails
                     console.log('🛠️ Aktualisiere CourseDetails...');
                     return [4 /*yield*/, supabase
                             .from('CourseDetails')
@@ -168,11 +168,11 @@ function scrapeWebsite() {
                             .eq('ID', provider.id)];
                 case 13:
                     _c.sent();
-                    console.log('✅ CourseDetails aktualisiert.');
+                    console.log('CourseDetails aktualisiert.');
                     return [3 /*break*/, 18];
                 case 14:
                     error_1 = _c.sent();
-                    console.error("\u274C Fehler beim Scraping von ".concat(entry.url, ":"), error_1.message);
+                    console.error("Fehler beim Scraping von ".concat(entry.url, ":"), error_1.message);
                     return [3 /*break*/, 18];
                 case 15:
                     if (!page) return [3 /*break*/, 17];
@@ -188,11 +188,11 @@ function scrapeWebsite() {
                     _i++;
                     return [3 /*break*/, 3];
                 case 20:
-                    console.log('✅ Scraping-Prozess abgeschlossen!');
+                    console.log('Scraping-Prozess abgeschlossen!');
                     return [3 /*break*/, 25];
                 case 21:
                     error_2 = _c.sent();
-                    console.error('❌ Allgemeiner Fehler beim Scraping:', error_2.message);
+                    console.error('Allgemeiner Fehler beim Scraping:', error_2.message);
                     return [3 /*break*/, 25];
                 case 22:
                     if (!browser) return [3 /*break*/, 24];
@@ -201,7 +201,7 @@ function scrapeWebsite() {
                     _c.sent();
                     _c.label = 24;
                 case 24:
-                    console.log('🛑 Browser geschlossen.');
+                    console.log('Browser geschlossen.');
                     return [7 /*endfinally*/];
                 case 25: return [2 /*return*/];
             }
@@ -210,5 +210,5 @@ function scrapeWebsite() {
 }
 // Starte den Scraping-Prozess
 scrapeWebsite().catch(function (error) {
-    return console.error('❌ Fehler beim Starten von scrapeWebsite:', error.message);
+    return console.error('Fehler beim Starten von scrapeWebsite:', error.message);
 });

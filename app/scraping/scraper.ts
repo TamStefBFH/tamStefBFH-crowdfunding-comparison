@@ -27,21 +27,21 @@ async function scrapeWebsite(): Promise<void> {
   let browser: Browser | null = null;
 
   try {
-    console.log('🚀 Starte den Scraping-Prozess...');
+    console.log('Starte den Scraping-Prozess...');
     browser = await puppeteer.launch({ headless: true });
 
     for (const provider of providers) {
-      console.log(`🔄 Scraping für Anbieter: ${provider.name}`);
+      console.log(`Scraping für Anbieter: ${provider.name}`);
 
       for (const entry of provider.urls) {
-        console.log(`🌐 Besuche URL: ${entry.url}`);
+        console.log(`Besuche URL: ${entry.url}`);
         let page: Page | null = null;
 
         try {
           page = await browser.newPage();
           await page.goto(entry.url, { waitUntil: 'networkidle2', timeout: 60000 });
 
-          // 📍 Standort extrahieren
+          // Standort extrahieren
           const standortText = await page.$$eval('li', (elements) => {
             return elements
               .map(el => el.textContent?.trim())
@@ -51,7 +51,7 @@ async function scrapeWebsite(): Promise<void> {
           let standort = 'Unbekannt';
           if (standortText) {
             standort = standortText.replace('Kursort:', '').trim();
-            console.log(`📍 Standort gefunden: ${standort}`);
+            console.log(`Standort gefunden: ${standort}`);
           }
 
           // 👥 Maximale Teilnehmerzahl extrahieren
@@ -65,10 +65,10 @@ async function scrapeWebsite(): Promise<void> {
           if (teilnehmerText) {
             const match = teilnehmerText.match(/(\d+)\s*bis\s*max\.\s*(\d+)\s*Personen/);
             maximaleTeilnehmer = match ? parseInt(match[2], 10) : null;
-            console.log(`👥 Maximale Teilnehmerzahl gefunden: ${maximaleTeilnehmer}`);
+            console.log(`Maximale Teilnehmerzahl gefunden: ${maximaleTeilnehmer}`);
           }
 
-          // 💰 Preis extrahieren
+          // Preis extrahieren
           const preisText = await page.$$eval('li', (elements) => {
             return elements
               .map(el => el.textContent?.trim())
@@ -79,10 +79,10 @@ async function scrapeWebsite(): Promise<void> {
           if (preisText) {
             const match = preisText.match(/(\d{1,5})\s*CHF/);
             preis = match ? parseInt(match[1], 10) : null;
-            console.log(`💰 Preis gefunden: ${preis} CHF`);
+            console.log(`Preis gefunden: ${preis} CHF`);
           }
 
-          // ✅ Aktualisiere GymiProviders
+          // Aktualisiere GymiProviders
           const { data: existingGymiProvider } = await supabase
             .from('GymiProviders')
             .select('*')
@@ -90,11 +90,11 @@ async function scrapeWebsite(): Promise<void> {
             .maybeSingle();
 
           if (!existingGymiProvider) {
-            console.warn(`⚠️ Kein GymiProvider gefunden für Anbieter: ${provider.name}`);
+            console.warn(`Kein GymiProvider gefunden für Anbieter: ${provider.name}`);
             continue;
           }
 
-          console.log('🛠️ Aktualisiere GymiProviders...');
+          console.log('Aktualisiere GymiProviders...');
           await supabase
             .from('GymiProviders')
             .update({
@@ -103,36 +103,36 @@ async function scrapeWebsite(): Promise<void> {
               ...(entry.type === "Langzeit" && { "Preis Langzeit Kurs": preis }),
             })
             .eq('ID', provider.id);
-          console.log(`✅ Preis für ${entry.type}-Kurs aktualisiert.`);
+          console.log(`Preis für ${entry.type}-Kurs aktualisiert.`);
 
-          // ✅ Aktualisiere CourseDetails
-          console.log('🛠️ Aktualisiere CourseDetails...');
+          // Aktualisiere CourseDetails
+          console.log('Aktualisiere CourseDetails...');
           await supabase
             .from('CourseDetails')
             .update({
               Standort: standort,
             })
             .eq('ID', provider.id);
-          console.log('✅ CourseDetails aktualisiert.');
+          console.log('CourseDetails aktualisiert.');
 
         } catch (error: any) {
-          console.error(`❌ Fehler beim Scraping von ${entry.url}:`, error.message);
+          console.error(`Fehler beim Scraping von ${entry.url}:`, error.message);
         } finally {
           if (page) await page.close();
         }
       }
     }
 
-    console.log('✅ Scraping-Prozess abgeschlossen!');
+    console.log('Scraping-Prozess abgeschlossen!');
   } catch (error: any) {
-    console.error('❌ Allgemeiner Fehler beim Scraping:', error.message);
+    console.error('Allgemeiner Fehler beim Scraping:', error.message);
   } finally {
     if (browser) await browser.close();
-    console.log('🛑 Browser geschlossen.');
+    console.log('Browser geschlossen.');
   }
 }
 
 // Starte den Scraping-Prozess
 scrapeWebsite().catch((error) =>
-  console.error('❌ Fehler beim Starten von scrapeWebsite:', error.message)
+  console.error('Fehler beim Starten von scrapeWebsite:', error.message)
 );
