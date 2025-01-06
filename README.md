@@ -1,11 +1,16 @@
 # Gymi-Vergleich
 
 ## Thema der Arbeit
-m Rahmen dieser Arbeit habe ich eine Webapplikation entwickelt, die Gymi-Vorbereitungskurse im Kanton Zürich vergleicht und bewertet. Dazu wurde ein Scoring-System implementiert, das auf verschiedenen Kriterien wie Preis-Leistungs-Verhältnis, Unterrichtsqualität, Flexibilität, Zusatzleistungen und Standort basiert. Die Webapplikation ermöglicht es den Nutzern, die Gewichtung der Bewertungskriterien individuell anzupassen und so eine personalisierte Bewertung der verschiedenen Anbieter zu erhalten. Um die erforderlichen Kursdaten zu extrahieren, habe ich Web Scraping mit Puppeteer eingesetzt, das die automatisierte Erhebung von Informationen direkt von den Webseiten der Anbieter ermöglicht. Die extrahierten Daten werden in der Datenbank in Supabase abgespeichert.
+In diesem Projekt wurde eine Webapplikation entwickelt, die es BenutzerInnen ermöglicht, Gymi-Vorbereitungskurse im Kanton Zürich zu vergleichen und zu bewerten. Ziel war es, eine benutzerfreundliche Plattform zu schaffen, die Schülern und Eltern hilft, den für sie besten Vorbereitungskurs zu finden, indem die Kurse anhand verschiedener Kriterien bewertet werden. Dabei konnten die BenutzerInnen die Gewichtung der Bewertungskriterien individuell anpassen, um eine personalisierte Bewertung zu erhalten.
+
+Die Applikation wurde mithilfe von Next.js für das Frontend und Supabase für das Backend umgesetzt. Für die Gestaltung der Benutzeroberfläche wurde Tailwind CSS verwendet.
+
+Mit Puppeteer wurde ein Web Scraping-Tool entwickelt, das automatisch die Daten von den Webseiten der Gymi-Vorbereitungskurse extrahiert und in der Supabase-Datenbank speichert. 
+
 
 ## Lokal ausführen
 1. Repository klonen: git clone [https://github.com/DEIN_REPOSITORY_LINK.git](https://github.com/TamStefBFH/tamStefBFH-crowdfunding-comparison.git)
-2. In das Verzeichnis wechseln: cd DEIN_REPOSITORY_NAME
+2. Downlowad node.js 
 3. Abhängigkeiten installieren: npm install
 4. Supabase konfigurieren (API-Schlüssel und URL in .env-Datei)
 5. Web-Scraping ausführen:
