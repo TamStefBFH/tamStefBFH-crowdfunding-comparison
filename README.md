@@ -9,7 +9,7 @@ Mit Puppeteer wurde ein Web Scraping-Tool entwickelt, das automatisch die Daten 
 
 
 ## Lokal ausführen
-1. Repository klonen: git clone [https://github.com/DEIN_REPOSITORY_LINK.git](https://github.com/TamStefBFH/tamStefBFH-crowdfunding-comparison.git)
+1. Repository klonen: git clone https://github.com/TamStefBFH/tamStefBFH-crowdfunding-comparison.git
 2. Downlowad node.js 
 3. Abhängigkeiten installieren: npm install
 4. Supabase konfigurieren (API-Schlüssel und URL in .env-Datei)
