@@ -12,7 +12,6 @@ Mit Puppeteer wurde ein Web Scraping-Tool entwickelt, das automatisch die Daten 
 1. Repository klonen: git clone https://github.com/TamStefBFH/tamStefBFH-crowdfunding-comparison.git
 2. Downlowad node.js 
 3. Abhängigkeiten installieren: npm install
-4. Supabase konfigurieren (API-Schlüssel und URL in .env-Datei)
 5. Web-Scraping ausführen:
    - tsc --build --clean (entfernt alte Build-Dateien und stellt sicher, dass alle Dateien frisch kompiliert werden.)
    - tsc (kompiliert alle TypeScript-Dateien zu JavaScript.)
